@@ -37,7 +37,6 @@ app.set('layout', 'partials/layout');
 // Core middleware
 app.use(compression()); // gzip
 app.use(express.urlencoded({ extended: true }));
-<<<<<<< HEAD
 app.use(express.json());
 
 // Make `req` available inside all EJS templates/partials
