@@ -37,6 +37,7 @@ app.set('layout', 'partials/layout');
 // Core middleware
 app.use(compression()); // gzip
 app.use(express.urlencoded({ extended: true }));
+<<<<<<< HEAD
 app.use(express.json());
 
 // Static with clean URLs and caching
@@ -50,6 +51,9 @@ app.use(
     },
   })
 );
+=======
+app.use(express.static(path.join(__dirname, 'public')));
+>>>>>>> 33091c6ed55bb115a48e0e7592b3e24924d9dff0
 
 // Sessions
 app.use(
