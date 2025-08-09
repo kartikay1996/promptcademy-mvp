@@ -1,5 +1,4 @@
-// src/server.js — CLEAN ESM VERSION for Render
-// --------------------------------------------------
+// src/server.js — CLEAN ESM for Render
 import 'dotenv/config';
 import express from 'express';
 import session from 'express-session';
@@ -9,30 +8,28 @@ import bcrypt from 'bcryptjs';
 import expressLayouts from 'express-ejs-layouts';
 import cors from 'cors';
 
-// IMPORTANT: routes folder is one level UP from /src
+// routes are one level UP from /src
 import coachRoutes from '../routes/coach.js';
 import paymentRoutes from '../routes/payments.js';
 
-// Local DB helpers (already ESM in your repo)
+// local JSON DB helpers
 import db, { q, seed } from './db.js';
 
-// --------------------------------------------------
 const __filename = fileURLToPath(import.meta.url);
 const __dirname  = path.dirname(__filename);
-const app = express();
+const app  = express();
 const PORT = process.env.PORT || 3000;
 const PROD = process.env.NODE_ENV === 'production';
 
-// Trust proxy (Render)
 app.set('trust proxy', 1);
 
-// Views
+// views
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(expressLayouts);
 app.set('layout', 'partials/layout');
 
-// Core middleware
+// core middleware (ESM imports only)
 app.use(cors({
   origin: [
     'https://promptcademy-mvp.onrender.com',
@@ -44,45 +41,38 @@ app.use(cors({
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Sessions (MemoryStore is fine for MVP; not for prod scale)
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET || 'dev-secret',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      sameSite: 'lax',
-      secure: PROD,     // true on Render (https)
-      maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
-    }
-  })
-);
+// session (MemoryStore is OK for MVP)
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'dev-secret',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true, sameSite: 'lax',
+    secure: PROD,
+    maxAge: 1000 * 60 * 60 * 24 * 7
+  }
+}));
 
-// Make req visible to EJS (avoids template crashes)
+// make req available in EJS to avoid template crashes
 app.use((req, res, next) => { res.locals.req = req; next(); });
 
-// Static
-app.use(
-  express.static(path.join(__dirname, 'public'), {
-    extensions: ['html'],
-    maxAge: PROD ? '1d' : 0,
-    setHeaders: (res) => res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate')
-  })
-);
+// static
+app.use(express.static(path.join(__dirname, 'public'), {
+  extensions: ['html'],
+  maxAge: PROD ? '1d' : 0,
+  setHeaders: r => r.setHeader('Cache-Control','public, max-age=0, must-revalidate')
+}));
 
-// Seed if requested
-if (process.env.SEED_ON_BOOT === 'true') {
-  try { seed(); } catch (e) { console.error('Seed error:', e); }
-}
+// optional seed
+if (process.env.SEED_ON_BOOT === 'true') { try { seed(); } catch (e) { console.error('Seed error:', e); } }
 
-// ---------- Helpers ----------
+// auth gate (single definition)
 const requireAuth = (req, res, next) => {
   if (!req.session?.userId) return res.redirect('/login');
   next();
 };
 
-// ---------- Debug ----------
+// debug
 app.get('/debug/state', (req, res) => {
   try {
     const daily = q.getDailyLesson();
@@ -92,10 +82,10 @@ app.get('/debug/state', (req, res) => {
   }
 });
 
-// ---------- Core routes ----------
+// routes
 app.get('/', (req, res) => res.render('index', { title: 'PromptCademy' }));
 
-// Auth
+// auth
 app.get('/signup', (req, res) => res.render('signup', { title: 'Sign up', error: null }));
 app.post('/signup', (req, res) => {
   try {
@@ -111,7 +101,7 @@ app.post('/signup', (req, res) => {
   }
 });
 
-app.get('/login',  (req, res) => res.render('login',  { title: 'Log in', error: null }));
+app.get('/login', (req, res) => res.render('login', { title: 'Log in', error: null }));
 app.post('/login', (req, res) => {
   try {
     const { email, password } = req.body || {};
@@ -127,24 +117,31 @@ app.post('/login', (req, res) => {
   }
 });
 
-app.get('/logout', (req, res) => {
-  req.session.destroy(() => res.redirect('/'));
-});
+app.get('/logout', (req, res) => req.session.destroy(() => res.redirect('/')));
 
-// Dashboard (SAFE even if no lessons)
+// DASHBOARD — pass EVERYTHING the EJS needs
 app.get('/dashboard', requireAuth, (req, res) => {
   try {
     const user = q.findUserById(req.session.userId);
     if (!user) return res.redirect('/logout');
 
-    const daily = (() => { try { return q.getDailyLesson(); } catch { return null; } })();
-    const completed = (() => { try { return q.getCompletedIds(user.id); } catch { return []; } })();
+    const daily        = (() => { try { return q.getDailyLesson(); } catch { return null; } })();
+    const lessons      = (() => { try { return q.listLessons(); } catch { return []; } })();
+    const completedIds = (() => { try { return q.getCompletedIds(user.id); } catch { return []; } })();
+
+    const totalCount     = Array.isArray(lessons) ? lessons.length : 0;
+    const completedCount = Array.isArray(completedIds) ? completedIds.length : 0;
+    const progressPct    = totalCount ? Math.round((completedCount / totalCount) * 100) : 0;
 
     res.render('dashboard', {
       title: 'Your Dashboard',
       user,
       daily: daily || { id: null, title: 'No daily lesson available', items: [] },
-      completed: Array.isArray(completed) ? completed : []
+      lessons,
+      completedIds,
+      totalCount,
+      completedCount,
+      progressPct
     });
   } catch (e) {
     console.error('Dashboard error:', e);
@@ -152,18 +149,18 @@ app.get('/dashboard', requireAuth, (req, res) => {
   }
 });
 
-// Mount API routes
+// API routes
 app.use('/api/coach',    coachRoutes);
 app.use('/api/payments', paymentRoutes);
 
-// ---------- Global error handler ----------
+// global error handler
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);
   if (req.accepts('html')) return res.status(500).send('Internal Server Error');
   res.status(500).json({ error: err.message });
 });
 
-// ---------- 404 ----------
+// 404
 app.use((req, res) => {
   if (req.accepts('html')) {
     return res.status(404).sendFile(path.join(__dirname, 'public', '404.html'), (err) => {
@@ -173,7 +170,4 @@ app.use((req, res) => {
   res.status(404).json({ error: 'Not Found' });
 });
 
-// ---------- Start ----------
-app.listen(PORT, () => {
-  console.log('PromptCademy running on http://localhost:' + PORT);
-});
+app.listen(PORT, () => console.log('PromptCademy running on http://localhost:' + PORT));
