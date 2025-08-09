@@ -1,0 +1,15 @@
+<div class="card">
+  <span class="tag"><%= lesson.category %></span>
+  <h2><%= lesson.title %></h2>
+  <p class="muted"><%= lesson.summary %></p>
+  <% if (user) { %>
+    <a class="btn" href="/playground/<%= lesson.id %>">Open in Playground</a>
+  <% } else { %>
+    <a class="btn" href="/signup">Start free to use Playground</a>
+  <% } %>
+</div>
+
+<div class="card">
+  <h3>Template Preview</h3>
+  <pre class="output"><%= lesson.prompt_template %></pre>
+</div>

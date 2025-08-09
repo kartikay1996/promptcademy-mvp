@@ -1,0 +1,41 @@
+<div class="split">
+  <div class="card">
+    <h3>Input</h3>
+    <form method="post" action="/api/run/<%= lesson.id %>">
+      <label>Your details</label>
+      <textarea name="user_input" rows="8" placeholder="Enter your custom details…"><%= lastInput || '' %></textarea>
+      <div class="toolbar" style="margin-top:12px">
+        <button class="btn" type="submit">Run with AI</button>
+        <a class="btn secondary" href="/library/save/<%= lesson.id %>?prefill=true" title="Save template to Library">Save template</a>
+        <% if (!completed) { %>
+          <a class="btn secondary" href="/complete/<%= lesson.id %>">Mark complete</a>
+        <% } else { %>
+          <span class="tag">Completed ✅</span>
+        <% } %>
+      </div>
+    </form>
+  </div>
+  <div class="card">
+    <h3>Result</h3>
+    <textarea id="resultArea" rows="12" placeholder="Result will appear here…"><%= ai_text || '' %></textarea>
+    <div class="toolbar" style="margin-top:12px">
+      <button class="btn secondary" type="button" onclick="copyResult()">Copy</button>
+      <button class="btn secondary" type="button" onclick="downloadResult()">Download .txt</button>
+    </div>
+  </div>
+</div>
+<script>
+function copyResult(){
+  const el = document.getElementById('resultArea');
+  el.select(); document.execCommand('copy');
+  alert('Copied!');
+}
+function downloadResult(){
+  const el = document.getElementById('resultArea');
+  const blob = new Blob([el.value||''], {type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'promptcademy-result.txt';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+</script>

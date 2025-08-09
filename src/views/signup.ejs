@@ -1,0 +1,9 @@
+<h2>Create your account</h2>
+<form method="post">
+  <div class="card"><label>Name</label><input name="name" required /></div>
+  <div class="card"><label>Email</label><input type="email" name="email" required /></div>
+  <div class="card"><label>Password</label><input type="password" name="password" required /></div>
+  <button class="btn">Create account</button>
+</form>
+<% if (typeof error !== 'undefined' && error) { %><p style="color:#b91c1c"><%= error %></p><% } %>
+<p class="muted">Already have an account? <a href="/login">Log in</a></p>

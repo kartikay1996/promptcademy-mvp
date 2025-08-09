@@ -1,0 +1,9 @@
+<div class="card">
+  <h2>Settings</h2>
+  <p><strong>Name:</strong> <%= user.name %></p>
+  <p><strong>Plan:</strong> <%= user.plan %></p>
+  <% if (message) { %><p class="muted"><%= message %></p><% } %>
+  <form method="post" action="/api/checkout" style="margin-top:12px">
+    <button class="btn">Upgrade Plan</button>
+  </form>
+</div>

@@ -1,0 +1,11 @@
+<h2>Your Saved Prompts</h2>
+<% if (prompts && prompts.length) { %>
+  <% prompts.forEach(p => { %>
+    <div class="card">
+      <strong><%= p.title %></strong>
+      <pre class="output muted"><%= p.output_text || '(no output saved yet)' %></pre>
+    </div>
+  <% }) %>
+<% } else { %>
+  <div class="empty">Nothing here yet. Run a lesson in the Playground and click “Save template”.</div>
+<% } %>

@@ -1,0 +1,39 @@
+<h2>Welcome back!</h2>
+<div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+  <div>
+    <div class="streak">🔥 Daily Challenge</div>
+    <div class="muted"><%= daily.title %></div>
+  </div>
+  <div>
+    <a class="btn coral" href="/playground/<%= daily.id %>">Take today’s challenge</a>
+  </div>
+</div>
+
+<h3 style="margin-top:18px">Your Progress</h3>
+<div class="card">
+  <div class="progress"><span style="width:<%= progressPct %>%"></span></div>
+  <p class="small muted" style="margin-top:8px"><%= completedCount %>/<%= totalCount %> lessons completed</p>
+</div>
+
+<div class="tabs">
+  <a class="tab <%= (activeCat==='All')?'active':'' %>" href="/dashboard">All</a>
+  <a class="tab <%= (activeCat==='Marketing')?'active':'' %>" href="/dashboard?cat=Marketing">Marketing</a>
+  <a class="tab <%= (activeCat==='HR')?'active':'' %>" href="/dashboard?cat=HR">HR</a>
+  <a class="tab <%= (activeCat==='Finance')?'active':'' %>" href="/dashboard?cat=Finance">Finance</a>
+</div>
+
+<div class="grid">
+  <% lessons.forEach(l => { %>
+    <div class="card card-lesson">
+      <span class="badge"><%= l.category %></span>
+      <h3><%= l.title %></h3>
+      <p class="muted"><%= l.summary %></p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <a class="btn" href="/lesson/<%= l.id %>">Open</a>
+        <% if (completedIds.includes(l.id)) { %>
+          <span class="tag">Completed ✅</span>
+        <% } %>
+      </div>
+    </div>
+  <% }) %>
+</div>

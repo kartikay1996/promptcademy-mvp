@@ -1,0 +1,13 @@
+<div class="card">
+  <span class="tag">Weekly Challenge</span>
+  <h2><%= challenge.title %></h2>
+  <p class="muted"><%= challenge.description %></p>
+  <form method="post">
+    <label>Your entry</label>
+    <textarea name="content" rows="6" required></textarea>
+    <div style="margin-top:12px">
+      <button class="btn">Submit Entry</button>
+    </div>
+  </form>
+  <% if (message) { %><p class="muted" style="margin-top:10px"><%= message %></p><% } %>
+</div>

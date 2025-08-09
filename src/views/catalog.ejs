@@ -1,0 +1,26 @@
+<h2>Lessons Catalog</h2>
+<p class="muted">Browse a few lessons before you sign up. Categories: <span class="tag">Marketing</span> <span class="tag">HR</span> <span class="tag">Finance</span></p>
+<div class="tabs">
+  <a class="tab <%= (activeCat==='All')?'active':'' %>" href="/catalog">All</a>
+  <a class="tab <%= (activeCat==='Marketing')?'active':'' %>" href="/catalog?cat=Marketing">Marketing</a>
+  <a class="tab <%= (activeCat==='HR')?'active':'' %>" href="/catalog?cat=HR">HR</a>
+  <a class="tab <%= (activeCat==='Finance')?'active':'' %>" href="/catalog?cat=Finance">Finance</a>
+</div>
+<div class="grid">
+  <% lessons.forEach(l => { %>
+    <div class="card card-lesson">
+      <span class="badge"><%= l.category %></span>
+      <h3><%= l.title %></h3>
+      <p class="muted"><%= l.summary %></p>
+      <% if (user) { %>
+        <a class="btn" href="/lesson/<%= l.id %>">Start</a>
+      <% } else { %>
+        <a class="btn" href="/lesson/<%= l.id %>">Preview</a>
+        <a class="btn secondary" href="/signup">Start free</a>
+      <% } %>
+    </div>
+  <% }) %>
+</div>
+<% if (!lessons || lessons.length === 0) { %>
+  <div class="empty">No lessons in this category yet.</div>
+<% } %>

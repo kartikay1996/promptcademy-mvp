@@ -1,0 +1,72 @@
+[
+  {
+    "title": "Write product description that sells",
+    "summary": "Turn features into benefits for a clear persona and add CTA.",
+    "prompt_template": "You are a copywriting assistant. Write a persuasive product description for: {{PRODUCT}}. Target persona: {{PERSONA}}. Emphasize 3 key benefits, include a short headline and a CTA.",
+    "category": "Marketing",
+    "order": 1
+  },
+  {
+    "title": "Cold email for B2B outreach",
+    "summary": "Short, specific, and value-led outreach draft.",
+    "prompt_template": "Draft a 120-word cold email to {{TARGET_ROLE}} at {{COMPANY_TYPE}} about {{OFFER}}. Include a personalized opening line and 1 clear CTA.",
+    "category": "Marketing",
+    "order": 2
+  },
+  {
+    "title": "Instagram caption ideas",
+    "summary": "Generate 5 scroll-stopping captions with hooks.",
+    "prompt_template": "Generate 5 Instagram caption ideas for {{BRAND}} promoting {{PRODUCT}}. Each under 20 words with a thumb-stopping hook.",
+    "category": "Marketing",
+    "order": 3
+  },
+  {
+    "title": "Blog post outline",
+    "summary": "Outline with H2/H3s, intro, and CTA.",
+    "prompt_template": "Create a blog post outline on {{TOPIC}} for {{AUDIENCE}}. Include intro, 5 H2s with 2 H3s each, and a CTA.",
+    "category": "Marketing",
+    "order": 4
+  },
+  {
+    "title": "Job description generator",
+    "summary": "Write a clear JD with responsibilities and requirements.",
+    "prompt_template": "Write a job description for a {{ROLE}} at a {{COMPANY_TYPE}}. Include mission, 6 responsibilities, 6 requirements, and benefits.",
+    "category": "HR",
+    "order": 5
+  },
+  {
+    "title": "Interview questions",
+    "summary": "Targeted questions that assess skills and fit.",
+    "prompt_template": "Generate 10 interview questions to evaluate a candidate for {{ROLE}} focusing on {{SKILLS}} and culture fit.",
+    "category": "HR",
+    "order": 6
+  },
+  {
+    "title": "Employee feedback template",
+    "summary": "Balanced, constructive feedback.",
+    "prompt_template": "Write a balanced employee feedback note for {{EMPLOYEE}} on {{TOPIC}} using SBI (Situation, Behavior, Impact) format and 2 next steps.",
+    "category": "HR",
+    "order": 7
+  },
+  {
+    "title": "Monthly report summary",
+    "summary": "Explain KPIs in plain English.",
+    "prompt_template": "Summarize this monthly report for a small business owner. KPIs: {{KPIS}}. Provide 3 insights and 2 actions.",
+    "category": "Finance",
+    "order": 8
+  },
+  {
+    "title": "Cash flow forecast prompt",
+    "summary": "Structure to forecast inflow/outflow.",
+    "prompt_template": "Create a cash flow forecast prompt for {{BUSINESS}} covering revenue streams, fixed/variable costs, and seasonality.",
+    "category": "Finance",
+    "order": 9
+  },
+  {
+    "title": "Pricing strategy helper",
+    "summary": "Pick pricing model with reasoning.",
+    "prompt_template": "Recommend a pricing strategy for {{PRODUCT}} in {{MARKET}}. Compare 3 models and choose one with reasoning and next steps.",
+    "category": "Finance",
+    "order": 10
+  }
+]
