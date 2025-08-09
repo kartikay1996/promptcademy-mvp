@@ -10,18 +10,6 @@
   const safePct = Number.isFinite(progressPct) ? progressPct
                   : (safeTotal ? Math.round((safeCompleted / safeTotal) * 100) : 0);
 %>
-
-<!-- 🔍 ADD THIS DEBUG SECTION -->
-<div class="card" style="background: #ffe6e6; border: 2px solid red; margin: 20px 0;">
-  <h4>🔍 DEBUG: Dashboard Data</h4>
-  <p><strong>Raw lessons variable:</strong> <%= typeof lessons %> (length: <%= lessons ? lessons.length : 'undefined' %>)</p>
-  <p><strong>safeLessons:</strong> <%= safeLessons.length %> items</p>
-  <p><strong>First lesson:</strong></p>
-  <pre><%= safeLessons[0] ? JSON.stringify(safeLessons[0], null, 2) : 'No lessons' %></pre>
-  <p><strong>Daily lesson:</strong></p>
-  <pre><%= daily ? JSON.stringify(daily, null, 2) : 'No daily lesson' %></pre>
-</div>
-
 <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
   <div>
     <div class="streak">🔥 Daily Challenge</div>
