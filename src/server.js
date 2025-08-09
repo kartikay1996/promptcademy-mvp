@@ -14,8 +14,10 @@ import OpenAI from 'openai';
 import fs from 'fs';
 import expressLayouts from 'express-ejs-layouts';
 
+
 import cors from 'cors';
 import coachRoutes from '../routes/coach.js';
+import paymentRoutes from '../routes/payments.js'; 
 //import compression from 'compression';
 
 import db, { q, seed } from './db.js';
