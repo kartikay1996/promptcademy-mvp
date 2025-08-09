@@ -1,81 +1,32 @@
-
 <!doctype html>
-<html lang="en"><head>
-  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sample Lesson — PromptCademy</title>
-  <meta name="description" content="Try a real PromptCademy lesson. Practice a prompt and compare with an exemplar." />
-  <link rel="stylesheet" href="/styles.css" />
-</head><body>
-  
-<header class="site-header">
-  <div class="inner container">
-    <a href="/" class="logo-link">
-      <img src="/logo.svg" alt="PromptCademy Logo" height="26" />
-      <span class="logo-title">PromptCademy</span>
-    </a>
-    <nav class="site-nav">
-      <a href="/lesson/sample.html">Sample lesson</a>
-      <a href="#pricing">Pricing</a>
-      <a href="/signup" class="btn">Start free</a>
-    </nav>
-  </div>
-</header>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lesson — Sample</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div id="site-header"></div>
+    <script src="/inject-header.js"></script>
 
+    <main class="pc-page">
+      <h1>Sample Lesson</h1>
+      <p>This is a stub lesson page to validate the shared header & theme.</p>
+    </main>
 
-  <div class="container" style="padding-top:10px;">
-    <span id="progress-pill" class="badge">Loading progress…</span>
-    <h1 class="h1" style="margin:14px 0 0">Sample Lesson: Prompting 101 — Roles & Constraints</h1>
-    <p class="subtle">Practice writing a prompt with a clear role, goal, constraints, and steps. Then compare with the exemplar.</p>
-    <div class="card"><strong>Your turn</strong>
-      <p class="subtle">Write a prompt that asks an AI to create 5 Google ad variants in a friendly brand voice for a dog‑walking startup. Include: role, goal, constraints (tone, length), and steps.</p>
-      <textarea id="answer" rows="6" placeholder="Type your prompt here..."></textarea>
-      <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
-        <button id="check" class="btn">Check against exemplar</button>
-        <button id="complete" class="btn" style="background: var(--secondary)">Mark Completed</button>
+    <footer class="pc-footer">
+      <div class="pc-page" style="padding:0">
+        <nav aria-label="Footer">
+          <a href="/lessons">Lessons</a> ·
+          <a href="/playground">Playground</a> ·
+          <a href="/about">About</a> ·
+          <a href="/contact">Contact</a> ·
+          <a href="/privacy">Privacy</a>
+        </nav>
+        <p style="opacity:.8;margin-top:12px">© <span id="y"></span> PromptCademy</p>
       </div>
-    </div>
-    <div id="exemplar" class="card" style="display:none"><strong>Exemplar</strong>
-      <pre id="exemplar-text" class="subtle" style="white-space:pre-wrap"></pre>
-    </div>
-    <div class="card"><strong>Progress</strong>
-      <pre id="progress-json" class="subtle">Loading…</pre>
-    </div>
-  </div>
-
-<script>
-async function getProgress() {
-  try {
-    const r = await fetch('/api/progress/summary');
-    const j = await r.json();
-    const total = j.items?.length || 0;
-    const done = (j.items || []).filter(x => x.status === 'completed').length;
-    document.getElementById('progress-pill').textContent = `${done} of ${total} completed`;
-    document.getElementById('progress-json').textContent = JSON.stringify(j.items || [], null, 2);
-  } catch (e) { document.getElementById('progress-pill').textContent = 'Progress unavailable'; }
-}
-document.getElementById('check').onclick = async () => {
-  const exemplar = `Role: Senior Performance Marketer
-Goal: Write 5 Google ad variants for a dog-walking startup to test CTR.
-Constraints: Friendly tone, 30-char headlines, 90-char descriptions, include “Book a walk” CTA.
-Steps:
-1) List 3 pain points for busy dog owners.
-2) Draft 5 headline options using benefits.
-3) Draft 5 description lines with CTA.
-4) Output as a table with columns: Headline, Description.`;
-  document.getElementById('exemplar-text').textContent = exemplar;
-  document.getElementById('exemplar').style.display = 'block';
-};
-document.getElementById('complete').onclick = async () => {
-  try {
-    const lr = await fetch('/api/lesson/today'); const lj = await lr.json();
-    const lessonId = lj.lesson?.id || 1;
-    await fetch('/api/progress', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ lessonId, status:'completed' })
-    });
-    await getProgress(); alert('Marked completed!');
-  } catch (e) { alert('Could not mark as completed.'); }
-};
-getProgress();
-</script>
-</body></html>
+      <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+    </footer>
+  </body>
+</html>
