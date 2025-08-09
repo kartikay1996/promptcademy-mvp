@@ -1,0 +1,102 @@
+[
+  {
+    "id": "homepage_hero_feature_stack",
+    "name": "Website: High‑Converting Homepage Hero + Feature Stack",
+    "category": "Marketing • Small Business",
+    "use_when": "Launching or revamping a homepage for better conversions.",
+    "inputs": [
+      "business_name",
+      "industry",
+      "customer_profile",
+      "main_problem",
+      "unique_points",
+      "tone",
+      "call_to_action"
+    ],
+    "template": "ROLE\nYou are a senior conversion copywriter and brand strategist.\n\nGOAL\nCreate a homepage hero section + 3 key feature blocks for {{business_name}} that:\n- Captures attention in <3 seconds\n- Makes the benefit obvious\n- Directs the visitor to take one clear next step\n\nINPUTS\n- Business name: {{business_name}}\n- Industry/niche: {{industry}}\n- Target customer: {{customer_profile}} (pain points + motivations)\n- Main problem solved: {{main_problem}}\n- Unique value proposition: {{unique_points}}\n- Desired tone: {{tone}} (e.g., bold, warm, trustworthy)\n- CTA: {{call_to_action}}\n\nSTRUCTURE\n1. Hero Headline (<12 words) – benefit-driven\n2. Subheadline (1–2 sentences) – expand on benefit\n3. CTA button text\n4. Feature Block #1 – headline + 2 sentences\n5. Feature Block #2 – headline + 2 sentences\n6. Feature Block #3 – headline + 2 sentences\n7. Optional proof element (testimonial or stat)\n\nCONSTRAINTS\n- Avoid jargon unless explained in plain language\n- No more than 2 adjectives per sentence\n- Make the CTA action-oriented (“Get Started”, “See Plans”)\n\nQA CHECKLIST\n- Headline passes the “So what?” test\n- CTA is visible and repeated\n- Each feature ties directly to a customer pain point\n\nOUTPUT\nProvide in Markdown with headings for easy CMS copy/paste."
+  },
+  {
+    "id": "social_30_day_calendar",
+    "name": "Social: 30‑Day Cross‑Platform Content Calendar",
+    "category": "Marketing • Small Business",
+    "use_when": "Building consistent, strategic social posting without constant ideation.",
+    "inputs": [
+      "business_name",
+      "product",
+      "platforms",
+      "posts_per_week",
+      "themes",
+      "tone",
+      "brand_voice_examples"
+    ],
+    "template": "ROLE\nYou are a social media strategist for small businesses.\n\nGOAL\nCreate a 30-day content calendar for {{business_name}} that builds awareness, trust, and engagement across {{platforms}}.\n\nINPUTS\n- Product/service: {{product}}\n- Platforms: {{platforms}} (e.g., Instagram, LinkedIn, Facebook)\n- Posting frequency: {{posts_per_week}}\n- Core content pillars/themes: {{themes}}\n- Tone & style: {{tone}}\n- Brand voice examples (if any): {{brand_voice_examples}}\n\nSTRUCTURE\nTable with columns:\nDate | Platform | Content Type (reel, carousel, image, text, poll, live) | Topic/Idea | Caption (drafted) | Hashtags (10–15, platform-specific) | CTA | Engagement Tip\n\nCONTENT MIX RULES\n- 40% educational\n- 30% engagement/interactive\n- 20% product/service showcase\n- 10% behind-the-scenes/personal brand\n\nCONSTRAINTS\n- Adapt captions to each platform’s style\n- Include 2 story ideas per week for platforms that support it\n- Add 1 repurposing tip for each post\n\nQA CHECKLIST\n- At least one post/week encourages comments\n- No platform left inactive for more than 5 days\n- Captions under platform character limits\n\nOUTPUT\nProvide as a Markdown table + a summary of key trends/themes for the month."
+  },
+  {
+    "id": "email_3_part_welcome",
+    "name": "Email: 3‑Email Welcome + Conversion Sequence",
+    "category": "Marketing • Small Business",
+    "use_when": "Turning subscribers into paying customers in their first week.",
+    "inputs": [
+      "business_name",
+      "product",
+      "audience",
+      "benefits",
+      "objections",
+      "offer"
+    ],
+    "template": "ROLE\nYou are an email marketing specialist with expertise in SMB conversion funnels.\n\nGOAL\nWrite a 3-email welcome sequence that:\n- Introduces the brand\n- Delivers early value\n- Converts to a first purchase or booking\n\nINPUTS\n- Business name: {{business_name}}\n- Product/service: {{product}}\n- Target audience: {{audience}}\n- Key benefits: {{benefits}}\n- Common objections: {{objections}}\n- Offer/discount: {{offer}}\n\nSTRUCTURE\nEmail 1 – Welcome + value promise + quick win resource  \nEmail 2 – Story + proof + overcome a key objection  \nEmail 3 – Offer + urgency + clear CTA\n\nDETAILS FOR EACH EMAIL\n- Subject line (<45 characters, curiosity-driven)\n- Preview text (<80 characters)\n- Body copy (150–250 words)\n- CTA (link or button text)\n\nCONSTRAINTS\n- Maintain a conversational tone\n- Personalize with {{first_name}} placeholder\n- Single clear CTA per email\n\nQA CHECKLIST\n- Subject lines pass \"would I open this?\" test\n- At least one email addresses a specific objection\n- CTA links are consistent and functional\n\nOUTPUT\nProvide each email in Markdown, with separate blocks for Subject, Preview, Body, and CTA."
+  },
+  {
+    "id": "blog_seo_outline_lead_magnet",
+    "name": "Blog: SEO‑Optimized, Lead‑Magnet‑Ready Outline",
+    "category": "Marketing • Small Business",
+    "use_when": "Driving organic traffic that turns into leads.",
+    "inputs": [
+      "topic",
+      "keywords",
+      "audience",
+      "cta"
+    ],
+    "template": "ROLE\nYou are an SEO content strategist.\n\nGOAL\nCreate an SEO-optimized outline for a blog on {{topic}} that ranks for {{keywords}} and moves readers to a lead magnet.\n\nINPUTS\n- Topic: {{topic}}\n- Target keywords: {{keywords}}\n- Audience: {{audience}}\n- Main call-to-action: {{cta}}\n\nSTRUCTURE\n- H1: Primary keyword\n- Meta description (150–160 chars)\n- Hook introduction (<150 words)\n- 4–6 H2 sections (each with 2–3 H3 subsections)\n- Placement suggestion for lead magnet CTA\n- Internal linking suggestions (3+)\n- External reference suggestions (3+ authoritative sources)\n\nCONSTRAINTS\n- Keyword in H1, 50% of H2s, and first paragraph\n- Provide word count targets per section\n- Use a mix of informational and transactional subtopics\n\nQA CHECKLIST\n- Outline covers search intent\n- Flow is logical for skim readers\n- Clear lead magnet placement\n\nOUTPUT\nProvide as a structured Markdown outline."
+  },
+  {
+    "id": "ads_carousel_3card",
+    "name": "Paid Ads: 3‑Card Carousel Copy + Visual Direction",
+    "category": "Marketing • Small Business",
+    "use_when": "Driving targeted traffic via Facebook/Instagram ads.",
+    "inputs": [
+      "offer",
+      "audience",
+      "pain_points",
+      "benefits",
+      "tone",
+      "cta"
+    ],
+    "template": "ROLE\nYou are a direct-response copywriter for paid social.\n\nGOAL\nCreate copy + visual direction for a 3-card carousel ad promoting {{offer}}.\n\nINPUTS\n- Offer: {{offer}}\n- Target audience: {{audience}}\n- Pain points: {{pain_points}}\n- Benefits: {{benefits}}\n- Brand tone: {{tone}}\n- CTA: {{cta}}\n\nSTRUCTURE FOR EACH CARD\n- Headline (<6 words)\n- Body (1 sentence)\n- Suggested image/visual concept\n\nRULES\n- Card 1: Problem recognition\n- Card 2: Solution reveal\n- Card 3: Strongest benefit + CTA\n\nCONSTRAINTS\n- Keep copy punchy and scannable\n- CTA consistent across cards\n\nQA CHECKLIST\n- Each card works alone AND in sequence\n- Visuals reinforce, not repeat, the text\n- CTA is action-oriented\n\nOUTPUT\nProvide as a table: Card # | Headline | Body | Visual Direction | CTA"
+  },
+  {
+    "id": "testimonial_polisher_with_tags",
+    "name": "Testimonials: Authentic, Persuasive Rewrite + Tags",
+    "category": "Marketing • Small Business",
+    "use_when": "Presenting social proof that sounds real and converts.",
+    "inputs": [
+      "testimonials",
+      "product",
+      "audience"
+    ],
+    "template": "ROLE\nYou are a copy editor specializing in testimonial optimization.\n\nGOAL\nRewrite testimonials to:\n- Keep the customer’s authentic voice\n- Emphasize results and emotions\n- Make them usable in ads, landing pages, and social\n\nINPUTS\n- Raw testimonials: {{testimonials}}\n- Product/service: {{product}}\n- Audience: {{audience}}\n\nSTRUCTURE\nFor each testimonial:\n- Original (1–2 lines)\n- Polished version (<50 words)\n- Tag (e.g., price, ease, quality, support)\n\nCONSTRAINTS\n- No fabricated details\n- Keep personal quirks (if positive)\n\nQA CHECKLIST\n- Each highlights a specific benefit\n- No two testimonials feel copy-pasted\n- Tags align with marketing segments\n\nOUTPUT\nProvide as a table: Original | Polished | Tag"
+  },
+  {
+    "id": "seasonal_campaign_playbook",
+    "name": "Campaigns: Seasonal/Occasion‑Based Marketing Playbook",
+    "category": "Marketing • Small Business",
+    "use_when": "Boosting sales during a key seasonal window.",
+    "inputs": [
+      "product",
+      "season_or_event",
+      "audience",
+      "budget"
+    ],
+    "template": "ROLE\nYou are a creative marketing strategist.\n\nGOAL\nDevelop 5 complete campaign ideas for {{season_or_event}} that drive measurable results.\n\nINPUTS\n- Product/service: {{product}}\n- Season/event: {{season_or_event}}\n- Audience: {{audience}}\n- Budget level: {{budget}}\n\nSTRUCTURE FOR EACH IDEA\n- Campaign name\n- Core message\n- Channels used (e.g., email, paid social, in-store)\n- Example CTA\n- Key visual/theme description\n- Timeline (start → end)\n- Success metric\n\nCONSTRAINTS\n- At least 1 low-cost idea\n- At least 1 high-impact paid push\n- Mix digital and offline\n\nQA CHECKLIST\n- Ideas fit brand voice\n- Seasonal tie-in is clear\n- Metrics are measurable\n\nOUTPUT\nProvide as a numbered list with sub-bullets for each field."
+  }
+]

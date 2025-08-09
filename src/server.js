@@ -11,6 +11,7 @@ import { fileURLToPath } from 'url';
 import bcrypt from 'bcryptjs';
 import Stripe from 'stripe';
 import OpenAI from 'openai';
+import fs from 'fs';
 import expressLayouts from 'express-ejs-layouts';
 //import compression from 'compression';
 
@@ -233,6 +234,23 @@ app.post('/api/checkout', requireAuth, async (req, res) => {
     res.render('settings', { message: 'Stripe error: ' + err.message });
   }
 });
+
+
+/* ---------- Prompt Library (Curated + My Library) ---------- */
+app.get('/library', async (req, res) => {
+  try {
+    const curatedPath = path.join(__dirname, 'public', 'data', 'prompts-smb-marketing.json');
+    let curated = [];
+    try { curated = JSON.parse(await fs.promises.readFile(curatedPath, 'utf-8')); } catch (e) { curated = []; }
+    // TODO: replace with real DB prompts; fallback to session storage
+    const mine = Array.isArray(req.session?.myPrompts) ? req.session.myPrompts : [];
+    res.render('library', { title: 'Prompt Library', curated, mine });
+  } catch (err) {
+    console.error('Library route error:', err);
+    res.status(500).send('Library temporarily unavailable');
+  }
+});
+
 
 /* ---------- Branded 404 fallback ---------- */
 app.use((req, res) => {
