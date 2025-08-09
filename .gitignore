@@ -1,1 +1,6 @@
--e "node_modules\n.env\napp.db\n*.sqlite\ndist\nbuild" 
+node_modules
+.env
+app.db
+*.sqlite
+dist
+build
