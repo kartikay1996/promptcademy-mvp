@@ -50,7 +50,7 @@ app.use(
     extensions: ['html'],              // /lessons -> /lessons/index.html or .html
     maxAge: '7d',
     setHeaders: (res, filePath) => {
-      if (filePath.endswith('.html')) res.setHeader('Cache-Control', 'no-cache');
+      if (filePath.endsWith('.html')) res.setHeader('Cache-Control', 'no-cache');
     },
   })
 );
