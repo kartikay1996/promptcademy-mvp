@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lessons — PromptCademy</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div id="site-header"></div>
+    <script src="/inject-header.js"></script>
+
+    <main class="pc-page">
+      <h1>Lessons</h1>
+      <ul><li><a href="/lesson/sample.html">Prompt Patterns 101 (Sample)</a></li></ul>
+    </main>
+
+    <footer class="pc-footer">
+      <div class="pc-page" style="padding:0">
+        <nav aria-label="Footer">
+          <a href="/lessons/index.html">Lessons</a> ·
+          <a href="/playground/index.html">Playground</a> ·
+          <a href="/about/index.html">About</a> ·
+          <a href="/contact/index.html">Contact</a> ·
+          <a href="/privacy/index.html">Privacy</a>
+        </nav>
+        <p style="opacity:.8;margin-top:12px">© <span id="y"></span> PromptCademy</p>
+      </div>
+      <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+    </footer>
+  </body>
+</html>
