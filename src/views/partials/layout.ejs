@@ -3,24 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><%= typeof title !== 'undefined' ? title + ' — PromptCademy' : 'PromptCademy' %></title>
-  <meta name="description" content="<%= typeof description !== 'undefined' ? description : 'Master practical prompting through hands-on lessons and challenges.' %>">
-  <meta property="og:title" content="<%= typeof title !== 'undefined' ? title + ' — PromptCademy' : 'PromptCademy' %>">
-  <meta property="og:description" content="<%= typeof description !== 'undefined' ? description : 'Master practical prompting through hands-on lessons and challenges.' %>">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="/og-image.png">
-  <meta property="og:url" content="<%= 'https://promptcademy-mvp.onrender.com' + req.originalUrl %>">
-  <meta name="twitter:card" content="summary_large_image">
-  <link rel="canonical" href="<%= 'https://promptcademy-mvp.onrender.com' + req.originalUrl %>">
-  <link rel="stylesheet" href="/theme-gold.css">
+  <title><%= typeof title !== 'undefined' ? title + ' · PromptCademy' : 'PromptCademy' %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/theme.css">
 </head>
 <body>
-  <div id="site-header"><%- include('partials/header') %></div>
-  <main id="main" class="pc-page"><%- body %></main>
+  <%- include('partials/header') %>
+  <main class="container">
+    <%- body %>
+  </main>
   <%- include('partials/footer') %>
-  <script>
-    (function(){var h=document.querySelector('.pc-header');if(!h)return;var on=function(){if(window.scrollY>2)h.classList.add('pc-header--scrolled');else h.classList.remove('pc-header--scrolled')};on();window.addEventListener('scroll',on,{passive:true});})();
-    (function(){var btn=document.querySelector('.pc-menu-toggle');var nav=document.getElementById('pc-nav');if(!btn||!nav)return;btn.addEventListener('click',function(){var o=nav.classList.toggle('is-open');btn.setAttribute('aria-expanded',o?'true':'false');document.documentElement.classList.toggle('pc-menu-open',o)});})();
-  </script>
 </body>
 </html>
