@@ -1,0 +1,33 @@
+
+:root {
+  --primary:#1E3A8A; --primary-hover:#1E40AF;
+  --secondary:#14B8A6; --secondary-hover:#0D9488;
+  --accent:#F97316; --accent-hover:#EA580C;
+  --bg:#F9FAFB; --bg-alt:#F3F4F6;
+  --text:#0F172A; --text-muted:#64748B; --ring:#E5E7EB;
+}
+*{box-sizing:border-box} html,body{margin:0;padding:0}
+body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--text);background:var(--bg)}
+a{color:var(--secondary);text-decoration:none;transition:color .2s} a:hover{color:var(--accent)}
+.container{max-width:1120px;margin:0 auto;padding:20px}
+.site-header{background:#fff;border-bottom:1px solid var(--ring)}
+.site-header .inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 20px}
+.logo-link{display:inline-flex;align-items:center;gap:10px;text-decoration:none}
+.logo-title{font-weight:800;color:var(--text);letter-spacing:.2px}
+.site-nav{display:flex;gap:16px;align-items:center}
+.site-nav a{font-weight:600;color:var(--primary)}
+.site-nav .btn{color:#fff;background:var(--primary);padding:10px 14px;border-radius:10px}
+.site-nav .btn:hover{background:var(--primary-hover)}
+.btn{display:inline-flex;gap:8px;align-items:center;padding:12px 18px;border-radius:12px;border:0;background:var(--primary);color:#fff;font-weight:600;cursor:pointer;transition:background .2s}
+.btn:hover{background:var(--primary-hover)}
+.btn-ghost{background:transparent;color:var(--secondary);border:1px solid var(--ring)} .btn-ghost:hover{color:var(--accent);border-color:var(--secondary)}
+.card{background:#fff;border:1px solid var(--ring);border-radius:14px;padding:16px}
+.grid{display:grid;gap:16px} .grid-3{grid-template-columns:repeat(3,minmax(0,1fr))} @media (max-width:900px){.grid-3{grid-template-columns:1fr}}
+.h1{font-size:48px;line-height:1.05;margin:0 0 12px;font-weight:900;letter-spacing:-.02em}
+.h2{font-size:28px;margin:0 0 8px;font-weight:800}
+.subtle{color:var(--text-muted)}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:var(--bg-alt)}
+.hero{background:linear-gradient(135deg,rgba(30,58,138,.07),rgba(20,184,166,.06));padding:18px 0 24px}
+.footer{border-top:1px solid var(--ring);color:var(--text-muted);background:#fff}
+.footer .inner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:22px 20px;flex-wrap:wrap}
+input,textarea{width:100%;border:1px solid var(--ring);border-radius:12px;padding:12px;font:inherit;background:#fff}

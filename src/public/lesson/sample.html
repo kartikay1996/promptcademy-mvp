@@ -1,54 +1,44 @@
+
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<html lang="en"><head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sample Lesson — PromptCademy</title>
   <meta name="description" content="Try a real PromptCademy lesson. Practice a prompt and compare with an exemplar." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    :root{--ink:#0F172A;--muted:#475569;--ring:#E2E8F0;--primary:#27AE60}
-    *{box-sizing:border-box} html,body{margin:0;padding:0}
-    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink)}
-    .container{max-width:880px;margin:0 auto;padding:24px}
-    .pill{display:inline-block;background:#F8FAFC;border:1px solid var(--ring);border-radius:999px;padding:6px 12px;font-weight:600;color:#111}
-    .card{border:1px solid var(--ring);border-radius:16px;padding:16px;margin-top:12px}
-    .btn{display:inline-flex;gap:8px;align-items:center;padding:10px 14px;border-radius:12px;background:var(--primary);color:#fff;border:0;cursor:pointer}
-    textarea, input{width:100%;padding:12px;border-radius:12px;border:1px solid var(--ring);font:inherit}
-    .muted{color:var(--muted)}
-    pre{white-space:pre-wrap}
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
-      <a href="/" style="text-decoration:none;font-weight:700;color:#111">← PromptCademy</a>
-      <span id="progress-pill" class="pill">Loading progress…</span>
-    </div>
+  <link rel="stylesheet" href="/styles.css" />
+</head><body>
+  
+<header class="site-header">
+  <div class="inner container">
+    <a href="/" class="logo-link">
+      <img src="/logo.svg" alt="PromptCademy Logo" height="26" />
+      <span class="logo-title">PromptCademy</span>
+    </a>
+    <nav class="site-nav">
+      <a href="/lesson/sample.html">Sample lesson</a>
+      <a href="#pricing">Pricing</a>
+      <a href="/signup" class="btn">Start free</a>
+    </nav>
+  </div>
+</header>
 
-    <h1 style="margin:12px 0 0">Sample Lesson: Prompting 101 — Roles & Constraints</h1>
-    <p class="muted">Practice writing a prompt with a clear role, goal, constraints, and steps. Then compare with the exemplar.</p>
 
-    <div class="card">
-      <strong>Your turn</strong>
-      <p class="muted">Write a prompt that asks an AI to create 5 Google ad variants in a friendly brand voice for a dog-walking startup. Include: role, goal, constraints (tone, length), and steps.</p>
+  <div class="container" style="padding-top:10px;">
+    <span id="progress-pill" class="badge">Loading progress…</span>
+    <h1 class="h1" style="margin:14px 0 0">Sample Lesson: Prompting 101 — Roles & Constraints</h1>
+    <p class="subtle">Practice writing a prompt with a clear role, goal, constraints, and steps. Then compare with the exemplar.</p>
+    <div class="card"><strong>Your turn</strong>
+      <p class="subtle">Write a prompt that asks an AI to create 5 Google ad variants in a friendly brand voice for a dog‑walking startup. Include: role, goal, constraints (tone, length), and steps.</p>
       <textarea id="answer" rows="6" placeholder="Type your prompt here..."></textarea>
       <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
         <button id="check" class="btn">Check against exemplar</button>
-        <button id="complete" class="btn" style="background:#111">Mark Completed</button>
+        <button id="complete" class="btn" style="background: var(--secondary)">Mark Completed</button>
       </div>
     </div>
-
-    <div id="exemplar" class="card" style="display:none">
-      <strong>Exemplar</strong>
-      <pre id="exemplar-text"></pre>
+    <div id="exemplar" class="card" style="display:none"><strong>Exemplar</strong>
+      <pre id="exemplar-text" class="subtle" style="white-space:pre-wrap"></pre>
     </div>
-
-    <div class="card">
-      <strong>Progress</strong>
-      <pre id="progress-json" class="muted">Loading…</pre>
+    <div class="card"><strong>Progress</strong>
+      <pre id="progress-json" class="subtle">Loading…</pre>
     </div>
   </div>
 
@@ -61,11 +51,8 @@ async function getProgress() {
     const done = (j.items || []).filter(x => x.status === 'completed').length;
     document.getElementById('progress-pill').textContent = `${done} of ${total} completed`;
     document.getElementById('progress-json').textContent = JSON.stringify(j.items || [], null, 2);
-  } catch (e) {
-    document.getElementById('progress-pill').textContent = 'Progress unavailable';
-  }
+  } catch (e) { document.getElementById('progress-pill').textContent = 'Progress unavailable'; }
 }
-
 document.getElementById('check').onclick = async () => {
   const exemplar = `Role: Senior Performance Marketer
 Goal: Write 5 Google ad variants for a dog-walking startup to test CTR.
@@ -78,25 +65,17 @@ Steps:
   document.getElementById('exemplar-text').textContent = exemplar;
   document.getElementById('exemplar').style.display = 'block';
 };
-
 document.getElementById('complete').onclick = async () => {
   try {
-    const lr = await fetch('/api/lesson/today');
-    const lj = await lr.json();
+    const lr = await fetch('/api/lesson/today'); const lj = await lr.json();
     const lessonId = lj.lesson?.id || 1;
     await fetch('/api/progress', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
+      method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ lessonId, status:'completed' })
     });
-    await getProgress();
-    alert('Marked completed!');
-  } catch (e) {
-    alert('Could not mark as completed.');
-  }
+    await getProgress(); alert('Marked completed!');
+  } catch (e) { alert('Could not mark as completed.'); }
 };
-
 getProgress();
 </script>
-</body>
-</html>
+</body></html>
