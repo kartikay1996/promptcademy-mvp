@@ -170,8 +170,6 @@ app.get('/dashboard', requireAuth, (req, res) => {
   }
 });
 
-});
-
 // Public lesson preview
 app.get('/lesson/:id', (req, res) => {
   const lesson = q.getLesson(req.params.id);
