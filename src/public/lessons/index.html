@@ -1,32 +1,58 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lessons — PromptCademy</title>
-    <link rel="stylesheet" href="/styles.css">
-  </head>
-  <body>
-    <div id="site-header"></div>
-    <script src="/inject-header.js"></script>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lessons — PromptCademy</title>
+  <meta name="description" content="Browse interactive lessons to sharpen your prompting.">
+  <meta property="og:title" content="Lessons — PromptCademy">
+  <meta property="og:description" content="Browse interactive lessons to sharpen your prompting.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="/og-image.png">
+  <meta property="og:url" content="https://promptcademy-mvp.onrender.com/lessons">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://promptcademy-mvp.onrender.com/lessons">
+  <link rel="stylesheet" href="/theme-gold.css">
+</head>
+<body>
+  <div id="site-header"></div>
+  <script src="/inject-header.js" defer></script>
 
-    <main class="pc-page">
-      <h1>Lessons</h1>
-      <ul><li><a href="/lesson/sample.html">Prompt Patterns 101 (Sample)</a></li></ul>
-    </main>
+  <main id="main" class="pc-page">
+    <nav aria-label="Breadcrumb" style="margin-bottom:8px"><a href="/index">Home</a> › <strong>Lessons</strong></nav>
+<section class="pc-hero">
+  <h1>Lessons</h1>
+  <p>Browse hands‑on exercises to sharpen your prompting.</p>
+</section>
+<div class="pc-divider"></div>
+<div id="filters" class="pc-cta-row" style="margin-bottom:12px">
+  <a class="pc-btn pc-btn-outline" href="?cat=all">All</a>
+  <a class="pc-btn pc-btn-outline" href="?cat=marketing">Marketing</a>
+  <a class="pc-btn pc-btn-outline" href="?cat=hr">HR</a>
+  <a class="pc-btn pc-btn-outline" href="?cat=finance">Finance</a>
+</div>
+<section id="catalog" class="pc-card-grid">
+  <article class="pc-card"><span class="pc-badge">Beginner</span><h3>Prompt Patterns 101</h3><p>Role, constraints, examples, and style.</p></article>
+  <article class="pc-card"><span class="pc-badge">Intermediate</span><h3>Iteration & Critique</h3><p>Refine with feedback loops.</p></article>
+</section>
+<div id="empty" class="pc-card" style="display:none"><strong>No lessons found.</strong> Try a different filter.</div>
+<script defer>
+  // Tiny client-side empty state demo based on ?cat param (placeholder)
+  const u=new URL(location); const cat=u.searchParams.get('cat'); if(cat && cat!=='all'){document.getElementById('catalog').style.display='none';document.getElementById('empty').style.display='block'}
+</script>
 
-    <footer class="pc-footer">
-      <div class="pc-page" style="padding:0">
-        <nav aria-label="Footer">
-          <a href="/lessons/index.html">Lessons</a> ·
-          <a href="/playground/index.html">Playground</a> ·
-          <a href="/about/index.html">About</a> ·
-          <a href="/contact/index.html">Contact</a> ·
-          <a href="/privacy/index.html">Privacy</a>
-        </nav>
-        <p style="opacity:.8;margin-top:12px">© <span id="y"></span> PromptCademy</p>
-      </div>
-      <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
-    </footer>
-  </body>
+  </main>
+
+  <footer class="pc-footer">
+    <div class="pc-page" style="padding:0">
+      <nav aria-label="Footer">
+        <a href="/lessons">Lessons</a> · <a href="/playground">Playground</a> ·
+        <a href="/about">About</a> · <a href="/contact">Contact</a> · <a href="/privacy">Privacy</a> ·
+        <a href="/status">System status</a>
+      </nav>
+      <p style="opacity:.8;margin-top:12px">© <span id="y"></span> PromptCademy</p>
+    </div>
+    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+  </footer>
+</body>
 </html>

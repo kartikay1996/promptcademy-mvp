@@ -1,32 +1,39 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Privacy — PromptCademy</title>
-    <link rel="stylesheet" href="/styles.css">
-  </head>
-  <body>
-    <div id="site-header"></div>
-    <script src="/inject-header.js"></script>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy — PromptCademy</title>
+  <meta name="description" content="Our basic privacy policy for the MVP.">
+  <meta property="og:title" content="Privacy — PromptCademy">
+  <meta property="og:description" content="Our basic privacy policy for the MVP.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="/og-image.png">
+  <meta property="og:url" content="https://promptcademy-mvp.onrender.com/privacy">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://promptcademy-mvp.onrender.com/privacy">
+  <link rel="stylesheet" href="/theme-gold.css">
+</head>
+<body>
+  <div id="site-header"></div>
+  <script src="/inject-header.js" defer></script>
 
-    <main class="pc-page">
-      <h1>Privacy</h1>
-      <p>Simple placeholder policy for MVP. Replace before launch.</p>
-    </main>
+  <main id="main" class="pc-page">
+    <nav aria-label="Breadcrumb" style="margin-bottom:8px"><a href="/index">Home</a> › <strong>Privacy</strong></nav>
+<section class="pc-hero"><h1>Privacy</h1><p>Short placeholder policy for MVP. Replace before launch.</p></section>
 
-    <footer class="pc-footer">
-      <div class="pc-page" style="padding:0">
-        <nav aria-label="Footer">
-          <a href="/lessons/index.html">Lessons</a> ·
-          <a href="/playground/index.html">Playground</a> ·
-          <a href="/about/index.html">About</a> ·
-          <a href="/contact/index.html">Contact</a> ·
-          <a href="/privacy/index.html">Privacy</a>
-        </nav>
-        <p style="opacity:.8;margin-top:12px">© <span id="y"></span> PromptCademy</p>
-      </div>
-      <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
-    </footer>
-  </body>
+  </main>
+
+  <footer class="pc-footer">
+    <div class="pc-page" style="padding:0">
+      <nav aria-label="Footer">
+        <a href="/lessons">Lessons</a> · <a href="/playground">Playground</a> ·
+        <a href="/about">About</a> · <a href="/contact">Contact</a> · <a href="/privacy">Privacy</a> ·
+        <a href="/status">System status</a>
+      </nav>
+      <p style="opacity:.8;margin-top:12px">© <span id="y"></span> PromptCademy</p>
+    </div>
+    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+  </footer>
+</body>
 </html>
