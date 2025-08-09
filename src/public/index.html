@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PromptCademy — Fun AI Prompt Learning for Small Business</title>
+  <meta name="description" content="Learn to talk to AI with bite-size daily lessons. Duolingo-meets-Notion for prompts across Marketing, HR, and Finance." />
+  <meta property="og:title" content="PromptCademy — Learn to Talk to AI" />
+  <meta property="og:description" content="Stop guessing prompts. Master AI communication in minutes a day." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/og-image.png" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --primary:#27AE60; --primary-dark:#1E8A4D;
+      --ink:#0F172A; --muted:#475569; --alt:#F8FAFC; --ring:#E2E8F0;
+    }
+    *{box-sizing:border-box} html,body{margin:0;padding:0}
+    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:#fff}
+    .container{max-width:1120px;margin:0 auto;padding:24px}
+    .btn{display:inline-flex;gap:8px;align-items:center;padding:12px 18px;border-radius:14px;text-decoration:none;font-weight:600}
+    .btn-primary{background:var(--primary);color:#fff}.btn-primary:hover{background:var(--primary-dark)}
+    .btn-ghost{color:var(--primary-dark)}
+    .h1{font-family:Nunito,system-ui,sans-serif;font-weight:900;letter-spacing:-.02em;font-size:52px;line-height:1.04;margin:0 0 12px}
+    .h2{font-family:Nunito;font-weight:800;font-size:28px;margin:0 0 8px}
+    .subtle{color:var(--muted)}
+    .card{background:#fff;border:1px solid var(--ring);border-radius:16px;padding:20px;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+    .grid{display:grid;gap:16px}
+    .grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .hero{background:linear-gradient(180deg,rgba(244,208,63,.15),rgba(39,174,96,.08))}
+    .tag{display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border-radius:999px;background:var(--alt)}
+    .trust{display:flex;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:14px}
+    header .nav a{color:var(--primary-dark);text-decoration:none;font-weight:600}
+    header .nav a:hover{text-decoration:underline}
+    footer{padding:32px 0;border-top:1px solid var(--ring);color:var(--muted)}
+    @media (max-width:900px){.grid-3{grid-template-columns:1fr}.h1{font-size:40px}}
+  </style>
+</head>
+<body>
+  <header class="container" style="display:flex;align-items:center;justify-content:space-between;gap:16px;">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <strong>🟢 PromptCademy</strong>
+    </div>
+    <nav class="nav" style="display:flex;gap:16px;">
+      <a href="/lesson/sample.html">Sample lesson</a>
+      <a href="#pricing">Pricing</a>
+      <a class="btn btn-primary" href="/signup">Start free</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <span class="tag">5–10 minutes a day</span>
+      <h1 class="h1">Learn to talk to AI — and 10× your output</h1>
+      <p class="subtle" style="max-width:720px">
+        Stop guessing prompts. Master AI communication for Marketing, HR, and Finance with bite-size, hands-on lessons.
+      </p>
+      <div style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap;">
+        <a class="btn btn-primary" href="/signup">Start free</a>
+        <a class="btn btn-ghost" href="/lesson/sample.html">See a sample lesson →</a>
+      </div>
+
+      <div class="card" style="margin-top:24px">
+        <div class="grid grid-3">
+          <div><div class="tag">🎯 Skills, not fluff</div><p class="subtle">Micro-lessons turn into real outcomes you can ship today.</p></div>
+          <div><div class="tag">🧪 Practice first</div><p class="subtle">Challenges with instant exemplar feedback.</p></div>
+          <div><div class="tag">📦 Templates</div><p class="subtle">Drop‑in prompts for campaigns, HR ops, finance reviews.</p></div>
+        </div>
+      </div>
+
+      <div class="trust" style="margin-top:14px">
+        <span>“Duolingo for prompts.”</span> · <span>“My team finally gets AI.”</span> · <span>“Saved hours weekly.”</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="container" id="pricing" style="padding:48px 0">
+    <h2 class="h2">Simple pricing</h2>
+    <div class="grid grid-3" style="margin-top:12px">
+      <div class="card">
+        <div class="tag">Starter</div>
+        <h3 style="margin:8px 0 4px">Free</h3>
+        <ul style="padding-left:18px;margin:8px 0">
+          <li>3 lessons</li><li>Basic templates</li><li>Email support</li>
+        </ul>
+        <a class="btn btn-primary" href="/signup">Start free</a>
+      </div>
+      <div class="card" style="border:2px solid var(--primary)">
+        <div class="tag">Pro</div>
+        <h3 style="margin:8px 0 4px">$19/mo</h3>
+        <ul style="padding-left:18px;margin:8px 0">
+          <li>All tracks</li><li>Challenge mode</li><li>Team templates</li>
+        </ul>
+        <a class="btn btn-primary" href="/signup">Go Pro</a>
+      </div>
+      <div class="card">
+        <div class="tag">Team</div>
+        <h3 style="margin:8px 0 4px">Custom</h3>
+        <ul style="padding-left:18px;margin:8px 0">
+          <li>Seats</li><li>Shared library</li><li>Priority support</li>
+        </ul>
+        <a class="btn btn-primary" href="/contact">Talk to us</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+      <span>© 2025 PromptCademy</span>
+      <a href="/healthz" style="color:var(--muted);text-decoration:none">System status</a>
+    </div>
+  </footer>
+</body>
+</html>

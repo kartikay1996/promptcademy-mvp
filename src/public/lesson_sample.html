@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sample Lesson — PromptCademy</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f9fafb; color: #1f2937; }
+    header { padding: 1.5rem; background: #4f46e5; color: white; text-align: center; }
+    main { max-width: 600px; margin: auto; padding: 1rem; }
+    .lesson-card { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    textarea { width: 100%; min-height: 100px; margin-top: 0.5rem; }
+    button { background: #4f46e5; color: white; padding: 0.5rem 1rem; border: none; border-radius: 6px; cursor: pointer; margin-top: 1rem; }
+    .exemplar { background: #eef2ff; padding: 1rem; border-radius: 6px; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Sample Lesson</h1>
+    <p>Lesson 1 of 10 ✅</p>
+  </header>
+  <main>
+    <div class="lesson-card">
+      <h2>Prompt: Write a friendly welcome email for a new customer.</h2>
+      <label>Your Attempt:</label>
+      <textarea placeholder="Type your prompt here..."></textarea>
+      <button onclick="showExemplar()">Check Answer</button>
+      <div id="exemplar" class="exemplar" style="display:none;">
+        <strong>Exemplar:</strong>
+        <p>Hello [Name],<br><br>Welcome to our community! We’re excited to have you with us and can’t wait to see how you’ll grow with our tools.<br><br>Cheers,<br>The Team</p>
+      </div>
+    </div>
+  </main>
+  <script>
+    function showExemplar() {
+      document.getElementById('exemplar').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
