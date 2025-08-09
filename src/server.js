@@ -39,8 +39,16 @@ app.set('layout', 'partials/layout');
 
 /* ---------- Core middleware ---------- */
 //app.use(compression());                 // gzip
+require('dotenv').config();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+const cors = require('cors');
+app.use(cors({ origin: ['https://promptcademy-mvp.onrender.com','http://localhost:3000','http://127.0.0.1:3000'], credentials: true }));
+
+require('dotenv').config();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // ✅ Make `req` available in all EJS templates/partials (fixes 500 on login)
 app.use((req, res, next) => { res.locals.req = req; next(); });
@@ -108,6 +116,11 @@ app.get('/catalog', (req, res) => {
   const lessons = q.listLessonsByCategory(cat);
   res.render('catalog', { lessons, activeCat: cat });
 });
+const coachRoutes = require('./routes/coach');
+app.use('/api/coach', coachRoutes);
+
+const paymentRoutes = require('./routes/payments');
+app.use('/api/payments', paymentRoutes);
 
 // Auth
 app.get('/signup', (req, res) => res.render('signup', { title: 'Sign up', error: null }));

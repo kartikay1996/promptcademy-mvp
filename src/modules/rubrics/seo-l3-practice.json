@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Intent Match",
+    "max": 5
+  },
+  {
+    "name": "Topical Relevance",
+    "max": 5
+  },
+  {
+    "name": "Feasibility",
+    "max": 5
+  },
+  {
+    "name": "Search Demand",
+    "max": 5
+  },
+  {
+    "name": "Local Fit",
+    "max": 5
+  }
+]

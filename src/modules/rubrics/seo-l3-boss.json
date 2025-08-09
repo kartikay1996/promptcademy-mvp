@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Coverage Depth",
+    "max": 5
+  },
+  {
+    "name": "On-Page Structure",
+    "max": 5
+  },
+  {
+    "name": "Internal Linking",
+    "max": 5
+  },
+  {
+    "name": "Readability",
+    "max": 5
+  },
+  {
+    "name": "Conversion Clarity",
+    "max": 5
+  }
+]
