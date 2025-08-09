@@ -12,9 +12,6 @@ import db, { q, seed } from './db.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const path = require('path');
-const express = require('express');
-
 
 const app = express();
 const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY) : null;
@@ -30,20 +27,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(expressLayouts);
 app.set('layout', 'partials/layout');
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'src/public'), {
-  extensions: ['html'],   // resolves /path to /path.html or /path/index.html
-  maxAge: '7d'
-}));
-app.get('/healthz', (req, res) => {
-  res.json({ ok: true, env: process.env.NODE_ENV || 'dev' });
-});
-app.get('*', (req, res) => {
-  if (req.accepts('html')) {
-    return res.sendFile(path.join(__dirname, 'src/public/404.html'));
-  }
-  res.status(404).end();
-});
-
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({ secret: SESSION_SECRET, resave:false, saveUninitialized:false }));
 
