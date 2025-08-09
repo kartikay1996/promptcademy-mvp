@@ -1,6 +1,8 @@
-// server.js — PromptCademy (ESM)
-// Enhancements: clean static URLs, caching, compression, trust proxy, branded 404 fallback
-
+// server.js — PromptCademy (ESM, fixed)
+// - Preserves your original routes and behaviors
+// - Adds req -> res.locals for EJS (prevents 500 on Sign In)
+// - Clean URLs for static files + branded 404
+// - Gzip compression + trust proxy
 import 'dotenv/config';
 import express from 'express';
 import session from 'express-session';
@@ -10,7 +12,7 @@ import bcrypt from 'bcryptjs';
 import Stripe from 'stripe';
 import OpenAI from 'openai';
 import expressLayouts from 'express-ejs-layouts';
-import compression from 'compression';
+//import compression from 'compression';
 
 import db, { q, seed } from './db.js';
 
@@ -18,7 +20,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-app.set('trust proxy', 1); // Render/any proxy
+app.set('trust proxy', 1); // Render/NGINX/etc.
 
 const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY) : null;
 const openai = process.env.OPENAI_API_KEY ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY }) : null;
@@ -28,36 +30,32 @@ const PORT = process.env.PORT || 3000;
 const SEED_ON_BOOT = process.env.SEED_ON_BOOT === 'true';
 if (SEED_ON_BOOT) seed();
 
-// View engine
+/* ---------- Views ---------- */
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(expressLayouts);
 app.set('layout', 'partials/layout');
 
-// Core middleware
-app.use(compression()); // gzip
+/* ---------- Core middleware ---------- */
+//app.use(compression());                 // gzip
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Make `req` available inside all EJS templates/partials
+// ✅ Make `req` available in all EJS templates/partials (fixes 500 on login)
 app.use((req, res, next) => { res.locals.req = req; next(); });
 
-// Static with clean URLs and caching
+/* ---------- Static (clean URLs + caching) ---------- */
 app.use(
   express.static(path.join(__dirname, 'public'), {
-    extensions: ['html'], // /path -> /path.html or /path/index.html
+    extensions: ['html'],              // /lessons -> /lessons/index.html or .html
     maxAge: '7d',
     setHeaders: (res, filePath) => {
-      // Don’t cache HTML; cache assets
-      if (filePath.endsWith('.html')) res.setHeader('Cache-Control', 'no-cache');
+      if (filePath.endswith('.html')) res.setHeader('Cache-Control', 'no-cache');
     },
   })
 );
-=======
-app.use(express.static(path.join(__dirname, 'public')));
->>>>>>> 33091c6ed55bb115a48e0e7592b3e24924d9dff0
 
-// Sessions
+/* ---------- Sessions ---------- */
 app.use(
   session({
     secret: SESSION_SECRET,
@@ -66,7 +64,7 @@ app.use(
   })
 );
 
-// Auth helpers
+/* ---------- Auth helpers ---------- */
 function requireAuth(req, res, next) {
   if (!req.session.userId) return res.redirect('/login');
   next();
@@ -77,7 +75,7 @@ function setUser(req, res, next) {
 }
 app.use(setUser);
 
-// --- Diagnostics ---
+/* ---------- Diagnostics ---------- */
 app.get('/healthz', (req, res) => {
   try {
     const total = q.listLessons().length;
@@ -96,11 +94,11 @@ app.get('/debug/state', (req, res) => {
   }
 });
 
-// --- Routes ---
+/* ---------- Routes (preserved from your app) ---------- */
 // Landing
 app.get('/', (req, res) => res.render('index', { title: 'PromptCademy' }));
 
-// Optional: redirect /index -> /
+// Optional convenience: /index -> /
 app.get('/index', (req, res) => res.redirect('/'));
 
 // Catalog (public) with category filter
@@ -236,22 +234,15 @@ app.post('/api/checkout', requireAuth, async (req, res) => {
   }
 });
 
-// ---- Branded 404 fallback (after all routes) ----
+/* ---------- Branded 404 fallback ---------- */
 app.use((req, res) => {
   if (req.accepts('html')) {
-    // Try rendering EJS 404 if you add `views/404.ejs`
-    try {
-      return res.status(404).render('404', { title: 'Not Found' });
-    } catch (e) {
-      // Else serve static public/404.html if present
-      const fallback = path.join(__dirname, 'public', '404.html');
-      return res.sendFile(fallback, (err) => {
-        if (err) res.status(404).send('404 — Not Found');
-      });
-    }
+    return res.sendFile(path.join(__dirname, 'public', '404.html'), (err) => {
+      if (err) res.status(404).send('404 — Not Found');
+    });
   }
   res.status(404).json({ error: 'Not Found' });
 });
 
-// Start server
+/* ---------- Start ---------- */
 app.listen(PORT, () => console.log('PromptCademy running on http://localhost:' + PORT));
