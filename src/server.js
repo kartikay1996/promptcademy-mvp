@@ -1,5 +1,4 @@
-// src/server.js — final one-shot ESM version (Render-ready, safe dashboard)
-
+// src/server.js — FIXED VERSION
 import 'dotenv/config';
 import express from 'express';
 import session from 'express-session';
@@ -9,24 +8,28 @@ import bcrypt from 'bcryptjs';
 import expressLayouts from 'express-ejs-layouts';
 import cors from 'cors';
 
-// routes live one level up from /src
+// FIXED: Correct import paths
 import coachRoutes from '../routes/coach.js';
 import paymentRoutes from '../routes/payments.js';
 
 // local JSON DB helpers
 import db, { q, seed } from './db.js';
 
-// ---- Build stamp (so you can verify what's deployed via /health) ----
-const BUILD_ID = 'FINAL-ESM-2025-08-09-01';
+const BUILD_ID = 'FIXED-2025-08-09-01';
 
-// --------------------------------------------------------------------
 const __filename = fileURLToPath(import.meta.url);
-const __dirname  = path.dirname(__filename);
-const app  = express();
+const __dirname = path.dirname(__filename);
+const app = express();
 const PORT = process.env.PORT || 3000;
 const PROD = process.env.NODE_ENV === 'production';
 
-// Trust proxy (Render)
+// FIXED: Environment validation
+if (!process.env.OPENAI_API_KEY) {
+  console.error('❌ OPENAI_API_KEY is required');
+  process.exit(1);
+}
+
+// Trust proxy
 app.set('trust proxy', 1);
 
 // Views
@@ -47,27 +50,30 @@ app.use(cors({
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Sessions (OK for MVP; not for prod scale)
+// Sessions
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'dev-secret',
+  secret: process.env.SESSION_SECRET || 'dev-secret-change-me',
   resave: false,
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
     sameSite: 'lax',
     secure: PROD,
-    maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
+    maxAge: 1000 * 60 * 60 * 24 * 7
   }
 }));
 
-// Make req visible in EJS to avoid template crashes
-app.use((req, res, next) => { res.locals.req = req; next(); });
+// FIXED: User middleware
+app.use((req, res, next) => {
+  res.locals.req = req;
+  res.locals.user = req.session?.userId ? q.findUserById(req.session.userId) : null;
+  next();
+});
 
-// Static
+// Static files
 app.use(express.static(path.join(__dirname, 'public'), {
   extensions: ['html'],
-  maxAge: PROD ? '1d' : 0,
-  setHeaders: (res) => res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate')
+  maxAge: PROD ? '1d' : 0
 }));
 
 // Optional seed
@@ -75,35 +81,23 @@ if (process.env.SEED_ON_BOOT === 'true') {
   try { seed(); } catch (e) { console.error('Seed error:', e); }
 }
 
-// ---- Helpers ----
+// Helper
 const requireAuth = (req, res, next) => {
   if (!req.session?.userId) return res.redirect('/login');
   next();
 };
 
-// ---- Health / debug ----
+// Health check
 app.get('/health', (req, res) => {
-  res.json({
-    ok: true,
-    build: BUILD_ID,
-    env: process.env.NODE_ENV,
-    seedOnBoot: process.env.SEED_ON_BOOT === 'true'
-  });
+  res.json({ ok: true, build: BUILD_ID, env: process.env.NODE_ENV });
 });
 
-app.get('/debug/state', (req, res) => {
-  try {
-    const daily = q.getDailyLesson();
-    res.json({ ok: true, dailyLessonId: daily?.id ?? null });
-  } catch (e) {
-    res.status(500).json({ ok: false, error: e.message });
-  }
-});
+// ===== CORE ROUTES =====
 
-// ---- Core routes ----
+// Home
 app.get('/', (req, res) => res.render('index', { title: 'PromptCademy' }));
 
-// Auth
+// Auth routes
 app.get('/signup', (req, res) => res.render('signup', { title: 'Sign up', error: null }));
 app.post('/signup', (req, res) => {
   try {
@@ -119,7 +113,7 @@ app.post('/signup', (req, res) => {
   }
 });
 
-app.get('/login',  (req, res) => res.render('login', { title: 'Log in', error: null }));
+app.get('/login', (req, res) => res.render('login', { title: 'Log in', error: null }));
 app.post('/login', (req, res) => {
   try {
     const { email, password } = req.body || {};
@@ -137,32 +131,26 @@ app.post('/login', (req, res) => {
 
 app.get('/logout', (req, res) => req.session.destroy(() => res.redirect('/')));
 
-// ---- Dashboard (SAFE) ----
-// Pass EVERYTHING the EJS template expects; never 500 due to missing data.
+// FIXED: Dashboard route
 app.get('/dashboard', requireAuth, (req, res) => {
   try {
     const user = q.findUserById(req.session.userId);
     if (!user) return res.redirect('/logout');
 
-    // Pull with hard guards
-    const daily        = (() => { try { return q.getDailyLesson(); } catch { return null; } })() || { id: null, title: 'No daily lesson available', items: [] };
-    const lessons      = (() => { try { return q.listLessons(); } catch { return []; } })();
-    const completedIds = (() => { try { return q.getCompletedIds(user.id); } catch { return []; } })();
+    const daily = q.getDailyLesson() || { id: null, title: 'No daily lesson available' };
+    const lessons = q.listLessons();
+    const completedIds = q.getCompletedIds(user.id);
 
-    const totalCount     = Array.isArray(lessons) ? lessons.length : 0;
-    const completedCount = Array.isArray(completedIds) ? completedIds.length : 0;
-    const progressPct    = totalCount ? Math.round((completedCount / totalCount) * 100) : 0;
-
-    // Ensure arrays for EJS includes/forEach
-    const safeLessons = Array.isArray(lessons) ? lessons : [];
-    const safeCompleted = Array.isArray(completedIds) ? completedIds : [];
+    const totalCount = lessons.length;
+    const completedCount = completedIds.length;
+    const progressPct = totalCount ? Math.round((completedCount / totalCount) * 100) : 0;
 
     res.render('dashboard', {
-      title: 'Your Dashboard',
+      title: 'Dashboard',
       user,
       daily,
-      lessons: safeLessons,
-      completedIds: safeCompleted,
+      lessons,
+      completedIds,
       totalCount,
       completedCount,
       progressPct
@@ -173,27 +161,126 @@ app.get('/dashboard', requireAuth, (req, res) => {
   }
 });
 
-// Diagnostics (raw JSON snapshot of what /dashboard uses)
-app.get('/dashboard/raw', requireAuth, (req, res) => {
-  try {
-    const user = q.findUserById(req.session.userId);
-    const daily        = (() => { try { return q.getDailyLesson(); } catch { return null; } })();
-    const lessons      = (() => { try { return q.listLessons(); } catch { return []; } })();
-    const completedIds = (() => { try { return q.getCompletedIds(user?.id); } catch { return []; } })();
-    const totalCount     = Array.isArray(lessons) ? lessons.length : 0;
-    const completedCount = Array.isArray(completedIds) ? completedIds.length : 0;
-    const progressPct    = totalCount ? Math.round((completedCount / totalCount) * 100) : 0;
+// FIXED: Add missing routes
+app.get('/catalog', (req, res) => {
+  const category = req.query.cat || 'All';
+  const lessons = category === 'All' ? q.listLessons() : q.listLessonsByCategory(category);
+  res.render('catalog', { 
+    title: 'Lessons Catalog',
+    lessons,
+    activeCat: category
+  });
+});
 
-    res.json({ ok: true, userExists: !!user, daily, lessonsCount: totalCount, completedIds, completedCount, progressPct });
+app.get('/lesson/:id', (req, res) => {
+  const lesson = q.getLesson(req.params.id);
+  if (!lesson) return res.status(404).send('Lesson not found');
+  res.render('lesson', { 
+    title: lesson.title,
+    lesson
+  });
+});
+
+app.get('/playground/:id?', requireAuth, (req, res) => {
+  const lessonId = req.params.id;
+  const lesson = lessonId ? q.getLesson(lessonId) : q.getDailyLesson();
+  if (!lesson) return res.status(404).send('Lesson not found');
+  
+  const completedIds = q.getCompletedIds(req.session.userId);
+  const completed = completedIds.includes(lesson.id);
+  
+  res.render('playground', {
+    title: `Playground - ${lesson.title}`,
+    lesson,
+    completed,
+    lastInput: '',
+    ai_text: ''
+  });
+});
+
+app.get('/challenge', (req, res) => {
+  const challenge = q.getWeeklyChallenge();
+  res.render('challenge', {
+    title: 'Weekly Challenge',
+    challenge: challenge || { title: 'No challenge available', description: 'Check back soon!' },
+    message: null
+  });
+});
+
+app.post('/challenge', requireAuth, (req, res) => {
+  const { content } = req.body;
+  if (content) {
+    // Save challenge submission
+    q.saveChallengeSubmission(req.session.userId, content);
+  }
+  res.redirect('/challenge?submitted=true');
+});
+
+app.get('/library', requireAuth, (req, res) => {
+  const curated = q.getCuratedPrompts();
+  const mine = q.listPromptsByUser(req.session.userId);
+  res.render('library', {
+    title: 'Prompt Library',
+    curated,
+    mine
+  });
+});
+
+app.get('/settings', requireAuth, (req, res) => {
+  const user = q.findUserById(req.session.userId);
+  res.render('settings', {
+    title: 'Settings',
+    user,
+    message: null
+  });
+});
+
+app.post('/complete/:id', requireAuth, (req, res) => {
+  q.markComplete(req.session.userId, req.params.id);
+  res.redirect('/dashboard');
+});
+
+// API routes
+app.use('/api/coach', coachRoutes);
+app.use('/api/payments', paymentRoutes);
+
+// FIXED: Add missing API endpoints
+app.get('/api/lesson/today', (req, res) => {
+  try {
+    const lesson = q.getDailyLesson();
+    res.json({ ok: true, lesson });
   } catch (e) {
-    console.error('dashboard/raw error:', e);
     res.status(500).json({ ok: false, error: e.message });
   }
 });
 
-// API routes
-app.use('/api/coach',    coachRoutes);
-app.use('/api/payments', paymentRoutes);
+app.get('/api/progress/summary', requireAuth, (req, res) => {
+  try {
+    const completedIds = q.getCompletedIds(req.session.userId);
+    const lessons = q.listLessons();
+    const items = lessons.map(l => ({
+      lesson_id: l.id,
+      title: l.title,
+      status: completedIds.includes(l.id) ? 'completed' : 'not_started',
+      completed_at: completedIds.includes(l.id) ? new Date().toISOString() : null
+    }));
+    res.json({ ok: true, items });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e.message });
+  }
+});
+
+app.post('/api/progress', requireAuth, (req, res) => {
+  try {
+    const { lessonId, status } = req.body;
+    if (status === 'completed') {
+      q.markComplete(req.session.userId, lessonId);
+    }
+    res.json({ ok: true });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e.message });
+  }
+});
 
 // Global error handler
 app.use((err, req, res, next) => {
@@ -212,7 +299,8 @@ app.use((req, res) => {
   res.status(404).json({ error: 'Not Found' });
 });
 
-// Start
+// Start server
 app.listen(PORT, () => {
-  console.log('PromptCademy running on http://localhost:' + PORT, 'build=' + BUILD_ID);
+  console.log(`🚀 PromptCademy running on http://localhost:${PORT}`);
+  console.log(`📦 Build: ${BUILD_ID}`);
 });
