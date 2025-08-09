@@ -40,6 +40,9 @@ app.use(express.urlencoded({ extended: true }));
 <<<<<<< HEAD
 app.use(express.json());
 
+// Make `req` available inside all EJS templates/partials
+app.use((req, res, next) => { res.locals.req = req; next(); });
+
 // Static with clean URLs and caching
 app.use(
   express.static(path.join(__dirname, 'public'), {
