@@ -1,0 +1,23 @@
+<header class="pc-header" role="banner">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="pc-container">
+    <a href="/" class="pc-logo-link" aria-label="PromptCademy home">
+      <img src="/logo-gold.svg" alt="PromptCademy" class="pc-logo" height="28" width="28"/>
+      <span class="pc-brand">PromptCademy</span>
+    </a>
+    <button class="pc-menu-toggle" aria-label="Menu" aria-controls="pc-nav" aria-expanded="false">
+      <span class="pc-menu-bar"></span><span class="pc-menu-bar"></span><span class="pc-menu-bar"></span>
+    </button>
+    <nav id="pc-nav" class="pc-nav" role="navigation" aria-label="Main">
+      <ul class="pc-nav-list">
+        <% function active(href){ return (req.path === href || (href !== '/' && req.path.startsWith(href))) ? 'aria-current="page"' : '' } %>
+        <li><a href="/" <%- active('/') %>>Home</a></li>
+        <li><a href="/catalog" <%- active('/catalog') %>>Lessons</a></li>
+        <li><a href="/playground/1" <%- active('/playground') %>>Playground</a></li>
+        <li><a href="/about" <%- active('/about') %>>About</a></li>
+        <li><a href="/contact" <%- active('/contact') %>>Contact</a></li>
+      </ul>
+      <div class="pc-cta-wrap"><a class="pc-btn pc-btn-outline" href="/login">Sign In</a></div>
+    </nav>
+  </div>
+</header>
