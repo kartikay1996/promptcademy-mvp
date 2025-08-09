@@ -1,4 +1,5 @@
-// src/server.js — CLEAN ESM for Render
+// src/server.js — final one-shot ESM version (Render-ready, safe dashboard)
+
 import 'dotenv/config';
 import express from 'express';
 import session from 'express-session';
@@ -8,28 +9,33 @@ import bcrypt from 'bcryptjs';
 import expressLayouts from 'express-ejs-layouts';
 import cors from 'cors';
 
-// routes are one level UP from /src
+// routes live one level up from /src
 import coachRoutes from '../routes/coach.js';
 import paymentRoutes from '../routes/payments.js';
 
 // local JSON DB helpers
 import db, { q, seed } from './db.js';
 
+// ---- Build stamp (so you can verify what's deployed via /health) ----
+const BUILD_ID = 'FINAL-ESM-2025-08-09-01';
+
+// --------------------------------------------------------------------
 const __filename = fileURLToPath(import.meta.url);
 const __dirname  = path.dirname(__filename);
 const app  = express();
 const PORT = process.env.PORT || 3000;
 const PROD = process.env.NODE_ENV === 'production';
 
+// Trust proxy (Render)
 app.set('trust proxy', 1);
 
-// views
+// Views
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(expressLayouts);
 app.set('layout', 'partials/layout');
 
-// core middleware (ESM imports only)
+// Core middleware
 app.use(cors({
   origin: [
     'https://promptcademy-mvp.onrender.com',
@@ -41,38 +47,50 @@ app.use(cors({
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// session (MemoryStore is OK for MVP)
+// Sessions (OK for MVP; not for prod scale)
 app.use(session({
   secret: process.env.SESSION_SECRET || 'dev-secret',
   resave: false,
   saveUninitialized: false,
   cookie: {
-    httpOnly: true, sameSite: 'lax',
+    httpOnly: true,
+    sameSite: 'lax',
     secure: PROD,
-    maxAge: 1000 * 60 * 60 * 24 * 7
+    maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
   }
 }));
 
-// make req available in EJS to avoid template crashes
+// Make req visible in EJS to avoid template crashes
 app.use((req, res, next) => { res.locals.req = req; next(); });
 
-// static
+// Static
 app.use(express.static(path.join(__dirname, 'public'), {
   extensions: ['html'],
   maxAge: PROD ? '1d' : 0,
-  setHeaders: r => r.setHeader('Cache-Control','public, max-age=0, must-revalidate')
+  setHeaders: (res) => res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate')
 }));
 
-// optional seed
-if (process.env.SEED_ON_BOOT === 'true') { try { seed(); } catch (e) { console.error('Seed error:', e); } }
+// Optional seed
+if (process.env.SEED_ON_BOOT === 'true') {
+  try { seed(); } catch (e) { console.error('Seed error:', e); }
+}
 
-// auth gate (single definition)
+// ---- Helpers ----
 const requireAuth = (req, res, next) => {
   if (!req.session?.userId) return res.redirect('/login');
   next();
 };
 
-// debug
+// ---- Health / debug ----
+app.get('/health', (req, res) => {
+  res.json({
+    ok: true,
+    build: BUILD_ID,
+    env: process.env.NODE_ENV,
+    seedOnBoot: process.env.SEED_ON_BOOT === 'true'
+  });
+});
+
 app.get('/debug/state', (req, res) => {
   try {
     const daily = q.getDailyLesson();
@@ -82,10 +100,10 @@ app.get('/debug/state', (req, res) => {
   }
 });
 
-// routes
+// ---- Core routes ----
 app.get('/', (req, res) => res.render('index', { title: 'PromptCademy' }));
 
-// auth
+// Auth
 app.get('/signup', (req, res) => res.render('signup', { title: 'Sign up', error: null }));
 app.post('/signup', (req, res) => {
   try {
@@ -101,7 +119,7 @@ app.post('/signup', (req, res) => {
   }
 });
 
-app.get('/login', (req, res) => res.render('login', { title: 'Log in', error: null }));
+app.get('/login',  (req, res) => res.render('login', { title: 'Log in', error: null }));
 app.post('/login', (req, res) => {
   try {
     const { email, password } = req.body || {};
@@ -119,13 +137,15 @@ app.post('/login', (req, res) => {
 
 app.get('/logout', (req, res) => req.session.destroy(() => res.redirect('/')));
 
-// DASHBOARD — pass EVERYTHING the EJS needs
+// ---- Dashboard (SAFE) ----
+// Pass EVERYTHING the EJS template expects; never 500 due to missing data.
 app.get('/dashboard', requireAuth, (req, res) => {
   try {
     const user = q.findUserById(req.session.userId);
     if (!user) return res.redirect('/logout');
 
-    const daily        = (() => { try { return q.getDailyLesson(); } catch { return null; } })();
+    // Pull with hard guards
+    const daily        = (() => { try { return q.getDailyLesson(); } catch { return null; } })() || { id: null, title: 'No daily lesson available', items: [] };
     const lessons      = (() => { try { return q.listLessons(); } catch { return []; } })();
     const completedIds = (() => { try { return q.getCompletedIds(user.id); } catch { return []; } })();
 
@@ -133,12 +153,16 @@ app.get('/dashboard', requireAuth, (req, res) => {
     const completedCount = Array.isArray(completedIds) ? completedIds.length : 0;
     const progressPct    = totalCount ? Math.round((completedCount / totalCount) * 100) : 0;
 
+    // Ensure arrays for EJS includes/forEach
+    const safeLessons = Array.isArray(lessons) ? lessons : [];
+    const safeCompleted = Array.isArray(completedIds) ? completedIds : [];
+
     res.render('dashboard', {
       title: 'Your Dashboard',
       user,
-      daily: daily || { id: null, title: 'No daily lesson available', items: [] },
-      lessons,
-      completedIds,
+      daily,
+      lessons: safeLessons,
+      completedIds: safeCompleted,
       totalCount,
       completedCount,
       progressPct
@@ -149,11 +173,29 @@ app.get('/dashboard', requireAuth, (req, res) => {
   }
 });
 
+// Diagnostics (raw JSON snapshot of what /dashboard uses)
+app.get('/dashboard/raw', requireAuth, (req, res) => {
+  try {
+    const user = q.findUserById(req.session.userId);
+    const daily        = (() => { try { return q.getDailyLesson(); } catch { return null; } })();
+    const lessons      = (() => { try { return q.listLessons(); } catch { return []; } })();
+    const completedIds = (() => { try { return q.getCompletedIds(user?.id); } catch { return []; } })();
+    const totalCount     = Array.isArray(lessons) ? lessons.length : 0;
+    const completedCount = Array.isArray(completedIds) ? completedIds.length : 0;
+    const progressPct    = totalCount ? Math.round((completedCount / totalCount) * 100) : 0;
+
+    res.json({ ok: true, userExists: !!user, daily, lessonsCount: totalCount, completedIds, completedCount, progressPct });
+  } catch (e) {
+    console.error('dashboard/raw error:', e);
+    res.status(500).json({ ok: false, error: e.message });
+  }
+});
+
 // API routes
 app.use('/api/coach',    coachRoutes);
 app.use('/api/payments', paymentRoutes);
 
-// global error handler
+// Global error handler
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);
   if (req.accepts('html')) return res.status(500).send('Internal Server Error');
@@ -170,4 +212,7 @@ app.use((req, res) => {
   res.status(404).json({ error: 'Not Found' });
 });
 
-app.listen(PORT, () => console.log('PromptCademy running on http://localhost:' + PORT));
+// Start
+app.listen(PORT, () => {
+  console.log('PromptCademy running on http://localhost:' + PORT, 'build=' + BUILD_ID);
+});
