@@ -13,11 +13,7 @@ import Stripe from 'stripe';
 import OpenAI from 'openai';
 import fs from 'fs';
 import expressLayouts from 'express-ejs-layouts';
-
-
-import cors from 'cors';
-import coachRoutes from '../routes/coach.js';
-import paymentRoutes from '../routes/payments.js'; 
+import coachRoutes from './routes/coach.js';
 //import compression from 'compression';
 
 import db, { q, seed } from './db.js';
@@ -47,7 +43,12 @@ app.set('layout', 'partials/layout');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+const cors = require('cors');
 app.use(cors({ origin: ['https://promptcademy-mvp.onrender.com','http://localhost:3000','http://127.0.0.1:3000'], credentials: true }));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 // ✅ Make `req` available in all EJS templates/partials (fixes 500 on login)
 app.use((req, res, next) => { res.locals.req = req; next(); });
 
@@ -101,9 +102,6 @@ app.get('/debug/state', (req, res) => {
   }
 });
 
-
-app.use('/api/coach', coachRoutes);
-app.use('/api/payments', paymentRoutes);
 /* ---------- Routes (preserved from your app) ---------- */
 // Landing
 app.get('/', (req, res) => res.render('index', { title: 'PromptCademy' }));
@@ -117,6 +115,12 @@ app.get('/catalog', (req, res) => {
   const lessons = q.listLessonsByCategory(cat);
   res.render('catalog', { lessons, activeCat: cat });
 });
+const coachRoutes = require('./routes/coach');
+app.use('/api/coach', coachRoutes);
+
+const paymentRoutes = require('./routes/payments');
+app.use('/api/payments', paymentRoutes);
+
 // Auth
 app.get('/signup', (req, res) => res.render('signup', { title: 'Sign up', error: null }));
 app.post('/signup', (req, res) => {
@@ -143,15 +147,33 @@ app.get('/logout', (req, res) => {
 });
 
 // Dashboard with daily challenge + progress
+// Auth gate
+function requireAuth(req, res, next) {
+  if (!req.session || !req.session.userId) return res.redirect('/login');
+  next();
+}
+
 app.get('/dashboard', requireAuth, (req, res) => {
-  const cat = req.query.cat || 'All';
-  const lessons = q.listLessonsByCategory(cat);
-  const completedIds = q.getCompletedIds(req.session.userId);
-  const totalCount = q.listLessons().length;
-  const completedCount = completedIds.length;
-  const progressPct = totalCount ? Math.round((completedCount / totalCount) * 100) : 0;
-  const daily = q.getDailyLesson();
-  res.render('dashboard', { lessons, activeCat: cat, completedIds, totalCount, completedCount, progressPct, daily });
+  try {
+    const user = q.findUserById(req.session.userId);
+    if (!user) return res.redirect('/logout');
+
+    const daily = (() => { try { return q.getDailyLesson(); } catch { return null; } })();
+    const completed = (() => { try { return q.getCompletedIds(user.id); } catch { return []; } })();
+
+    res.render('dashboard', {
+      title: 'Your Dashboard',
+      user,
+      daily: daily || { id: null, title: 'No daily lesson available', items: [] },
+      completed: Array.isArray(completed) ? completed : []
+    });
+  } catch (e) {
+    console.error('Dashboard error:', e);
+    if (req.accepts('html')) return res.status(500).send('Internal Server Error');
+    res.status(500).json({ error: e.message });
+  }
+});
+
 });
 
 // Public lesson preview
@@ -259,6 +281,13 @@ app.get('/library', async (req, res) => {
   }
 });
 
+
+/* ---------- Global error handler ---------- */
+app.use((err, req, res, next) => {
+  console.error('Unhandled error:', err);
+  if (req.accepts('html')) return res.status(500).send('Internal Server Error');
+  res.status(500).json({ error: err.message });
+});
 
 /* ---------- Branded 404 fallback ---------- */
 app.use((req, res) => {
