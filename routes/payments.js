@@ -1,4 +1,9 @@
-const express = require('express'); const router = express.Router();
-// TODO: integrate Stripe
-router.post('/checkout', (req,res)=> res.json({ ok:true, note:'Stripe integration pending' }));
-module.exports = router;
+// routes/payments.js — ESM
+import express from 'express';
+const router = express.Router();
+
+router.post('/checkout', (req, res) => {
+  res.json({ ok: true, note: 'Stripe integration pending' });
+});
+
+export default router;
