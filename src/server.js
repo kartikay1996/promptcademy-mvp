@@ -14,6 +14,7 @@ import OpenAI from 'openai';
 import fs from 'fs';
 import expressLayouts from 'express-ejs-layouts';
 import coachRoutes from './routes/coach.js';
+import paymentRoutes from '../routes/payments.js';
 //import compression from 'compression';
 
 import db, { q, seed } from './db.js';
@@ -115,10 +116,9 @@ app.get('/catalog', (req, res) => {
   const lessons = q.listLessonsByCategory(cat);
   res.render('catalog', { lessons, activeCat: cat });
 });
-const coachRoutes = require('./routes/coach');
+
 app.use('/api/coach', coachRoutes);
 
-const paymentRoutes = require('./routes/payments');
 app.use('/api/payments', paymentRoutes);
 
 // Auth
