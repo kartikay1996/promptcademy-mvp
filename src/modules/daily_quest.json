@@ -1,0 +1,22 @@
+{
+  "id": "daily-quest",
+  "title": "Daily Quest",
+  "pool": [
+    {
+      "id": "dq-email-subject",
+      "track": "email",
+      "prompt": "Write 3 subject lines for {{offer}} to {{audience}} in {{tone}} tone."
+    },
+    {
+      "id": "dq-social-hook",
+      "track": "social",
+      "prompt": "Draft 5 hooks about {{topic}} for {{platform}}."
+    },
+    {
+      "id": "dq-seo-title",
+      "track": "seo",
+      "prompt": "Create 5 SEO titles targeting {{keyword}} with click-worthy angles."
+    }
+  ],
+  "xpOnComplete": 10
+}

@@ -4,3 +4,6 @@ app.db
 *.sqlite
 dist
 build
+
+.env
+.env.*

@@ -1,0 +1,5 @@
+// In server.js (or app.js)
+const coachRoutes = require('./routes/coach');
+app.use('/api/coach', coachRoutes);
+const paymentRoutes = require('./routes/payments');
+app.use('/api/payments', paymentRoutes);

@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Hierarchy/Scannability",
+    "max": 5
+  },
+  {
+    "name": "Message-Market Fit",
+    "max": 5
+  },
+  {
+    "name": "Trust Elements",
+    "max": 5
+  },
+  {
+    "name": "Mobile UX",
+    "max": 5
+  },
+  {
+    "name": "CTA Prominence",
+    "max": 5
+  }
+]
