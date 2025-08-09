@@ -1,72 +1,93 @@
 [
   {
-    "title": "Write product description that sells",
-    "summary": "Turn features into benefits for a clear persona and add CTA.",
-    "prompt_template": "You are a copywriting assistant. Write a persuasive product description for: {{PRODUCT}}. Target persona: {{PERSONA}}. Emphasize 3 key benefits, include a short headline and a CTA.",
+    "title": "Homepage hero + features that convert",
+    "summary": "High-impact hero + 3 feature blocks that make the benefit obvious and drive a clear CTA.",
+    "prompt_template": "ROLE\nYou are a senior conversion copywriter and brand strategist.\n\nGOAL\nCreate a homepage hero section + 3 key feature blocks for {{business_name}} that:\n- Captures attention in <3 seconds\n- Makes the benefit obvious\n- Directs the visitor to take one clear next step\n\nINPUTS\n- Business name: {{business_name}}\n- Industry/niche: {{industry}}\n- Target customer: {{customer_profile}} (pain points + motivations)\n- Main problem solved: {{main_problem}}\n- Unique value proposition: {{unique_points}}\n- Desired tone: {{tone}} (e.g., bold, warm, trustworthy)\n- CTA: {{call_to_action}}\n\nSTRUCTURE\n1. Hero Headline (<12 words) – benefit-driven\n2. Subheadline (1–2 sentences) – expand on benefit\n3. CTA button text\n4. Feature Block #1 – headline + 2 sentences\n5. Feature Block #2 – headline + 2 sentences\n6. Feature Block #3 – headline + 2 sentences\n7. Optional proof element (testimonial or stat)\n\nCONSTRAINTS\n- Avoid jargon unless explained in plain language\n- No more than 2 adjectives per sentence\n- Make the CTA action-oriented (“Get Started”, “See Plans”)\n\nQA CHECKLIST\n- Headline passes the “So what?” test\n- CTA is visible and repeated\n- Each feature ties directly to a customer pain point\n\nOUTPUT\nProvide in Markdown with headings for easy CMS copy/paste.",
     "category": "Marketing",
     "order": 1
   },
   {
-    "title": "Cold email for B2B outreach",
-    "summary": "Short, specific, and value-led outreach draft.",
-    "prompt_template": "Draft a 120-word cold email to {{TARGET_ROLE}} at {{COMPANY_TYPE}} about {{OFFER}}. Include a personalized opening line and 1 clear CTA.",
+    "title": "30‑day cross‑platform social calendar",
+    "summary": "Research‑based monthly plan with captions, hashtags, CTAs, engagement hooks, and repurposing tips.",
+    "prompt_template": "ROLE\nYou are a social media strategist for small businesses.\n\nGOAL\nCreate a 30-day content calendar for {{business_name}} that builds awareness, trust, and engagement across {{platforms}}.\n\nINPUTS\n- Product/service: {{product}}\n- Platforms: {{platforms}} (e.g., Instagram, LinkedIn, Facebook)\n- Posting frequency: {{posts_per_week}}\n- Core content pillars/themes: {{themes}}\n- Tone & style: {{tone}}\n- Brand voice examples (if any): {{brand_voice_examples}}\n\nSTRUCTURE\nTable with columns:\nDate | Platform | Content Type (reel, carousel, image, text, poll, live) | Topic/Idea | Caption (drafted) | Hashtags (10–15, platform-specific) | CTA | Engagement Tip\n\nCONTENT MIX RULES\n- 40% educational\n- 30% engagement/interactive\n- 20% product/service showcase\n- 10% behind-the-scenes/personal brand\n\nCONSTRAINTS\n- Adapt captions to each platform’s style\n- Include 2 story ideas per week for platforms that support it\n- Add 1 repurposing tip for each post\n\nQA CHECKLIST\n- At least one post/week encourages comments\n- No platform left inactive for more than 5 days\n- Captions under platform character limits\n\nOUTPUT\nProvide as a Markdown table + a summary of key trends/themes for the month.",
     "category": "Marketing",
     "order": 2
   },
   {
-    "title": "Instagram caption ideas",
-    "summary": "Generate 5 scroll-stopping captions with hooks.",
-    "prompt_template": "Generate 5 Instagram caption ideas for {{BRAND}} promoting {{PRODUCT}}. Each under 20 words with a thumb-stopping hook.",
+    "title": "3‑email welcome + conversion sequence",
+    "summary": "Welcome, teach a quick win, then convert with proof + time‑boxed offer.",
+    "prompt_template": "ROLE\nYou are an email marketing specialist with expertise in SMB conversion funnels.\n\nGOAL\nWrite a 3-email welcome sequence that:\n- Introduces the brand\n- Delivers early value\n- Converts to a first purchase or booking\n\nINPUTS\n- Business name: {{business_name}}\n- Product/service: {{product}}\n- Target audience: {{audience}}\n- Key benefits: {{benefits}}\n- Common objections: {{objections}}\n- Offer/discount: {{offer}}\n\nSTRUCTURE\nEmail 1 – Welcome + value promise + quick win resource  \nEmail 2 – Story + proof + overcome a key objection  \nEmail 3 – Offer + urgency + clear CTA\n\nDETAILS FOR EACH EMAIL\n- Subject line (<45 characters, curiosity-driven)\n- Preview text (<80 characters)\n- Body copy (150–250 words)\n- CTA (link or button text)\n\nCONSTRAINTS\n- Maintain a conversational tone\n- Personalize with {{first_name}} placeholder\n- Single clear CTA per email\n\nQA CHECKLIST\n- Subject lines pass \"would I open this?\" test\n- At least one email addresses a specific objection\n- CTA links are consistent and functional\n\nOUTPUT\nProvide each email in Markdown, with separate blocks for Subject, Preview, Body, and CTA.",
     "category": "Marketing",
     "order": 3
   },
   {
-    "title": "Blog post outline",
-    "summary": "Outline with H2/H3s, intro, and CTA.",
-    "prompt_template": "Create a blog post outline on {{TOPIC}} for {{AUDIENCE}}. Include intro, 5 H2s with 2 H3s each, and a CTA.",
+    "title": "SEO blog outline with lead‑magnet placement",
+    "summary": "Search‑intent outline with H2/H3s, meta, hooks, internal links, and CTA placement.",
+    "prompt_template": "ROLE\nYou are an SEO content strategist.\n\nGOAL\nCreate an SEO-optimized outline for a blog on {{topic}} that ranks for {{keywords}} and moves readers to a lead magnet.\n\nINPUTS\n- Topic: {{topic}}\n- Target keywords: {{keywords}}\n- Audience: {{audience}}\n- Main call-to-action: {{cta}}\n\nSTRUCTURE\n- H1: Primary keyword\n- Meta description (150–160 chars)\n- Hook introduction (<150 words)\n- 4–6 H2 sections (each with 2–3 H3 subsections)\n- Placement suggestion for lead magnet CTA\n- Internal linking suggestions (3+)\n- External reference suggestions (3+ authoritative sources)\n\nCONSTRAINTS\n- Keyword in H1, 50% of H2s, and first paragraph\n- Provide word count targets per section\n- Use a mix of informational and transactional subtopics\n\nQA CHECKLIST\n- Outline covers search intent\n- Flow is logical for skim readers\n- Clear lead magnet placement\n\nOUTPUT\nProvide as a structured Markdown outline.",
     "category": "Marketing",
     "order": 4
+  },
+  {
+    "title": "FB/IG 3‑card carousel ad + visual direction",
+    "summary": "Problem → solution → strongest benefit with image concepts and unified CTA.",
+    "prompt_template": "ROLE\nYou are a direct-response copywriter for paid social.\n\nGOAL\nCreate copy + visual direction for a 3-card carousel ad promoting {{offer}}.\n\nINPUTS\n- Offer: {{offer}}\n- Target audience: {{audience}}\n- Pain points: {{pain_points}}\n- Benefits: {{benefits}}\n- Brand tone: {{tone}}\n- CTA: {{cta}}\n\nSTRUCTURE FOR EACH CARD\n- Headline (<6 words)\n- Body (1 sentence)\n- Suggested image/visual concept\n\nRULES\n- Card 1: Problem recognition\n- Card 2: Solution reveal\n- Card 3: Strongest benefit + CTA\n\nCONSTRAINTS\n- Keep copy punchy and scannable\n- CTA consistent across cards\n\nQA CHECKLIST\n- Each card works alone AND in sequence\n- Visuals reinforce, not repeat, the text\n- CTA is action-oriented\n\nOUTPUT\nProvide as a table: Card # | Headline | Body | Visual Direction | CTA",
+    "category": "Marketing",
+    "order": 5
+  },
+  {
+    "title": "Testimonial polish (authentic, persuasive)",
+    "summary": "Rewrite raw quotes to highlight outcomes; tag by theme for reuse in pages/ads.",
+    "prompt_template": "ROLE\nYou are a copy editor specializing in testimonial optimization.\n\nGOAL\nRewrite testimonials to:\n- Keep the customer’s authentic voice\n- Emphasize results and emotions\n- Make them usable in ads, landing pages, and social\n\nINPUTS\n- Raw testimonials: {{testimonials}}\n- Product/service: {{product}}\n- Audience: {{audience}}\n\nSTRUCTURE\nFor each testimonial:\n- Original (1–2 lines)\n- Polished version (<50 words)\n- Tag (e.g., price, ease, quality, support)\n\nCONSTRAINTS\n- No fabricated details\n- Keep personal quirks (if positive)\n\nQA CHECKLIST\n- Each highlights a specific benefit\n- No two testimonials feel copy-pasted\n- Tags align with marketing segments\n\nOUTPUT\nProvide as a table: Original | Polished | Tag",
+    "category": "Marketing",
+    "order": 6
+  },
+  {
+    "title": "Seasonal/occasion campaign playbook (5 ideas)",
+    "summary": "Five complete campaigns with channels, CTAs, visual theme, timeline, and success metric.",
+    "prompt_template": "ROLE\nYou are a creative marketing strategist.\n\nGOAL\nDevelop 5 complete campaign ideas for {{season_or_event}} that drive measurable results.\n\nINPUTS\n- Product/service: {{product}}\n- Season/event: {{season_or_event}}\n- Audience: {{audience}}\n- Budget level: {{budget}}\n\nSTRUCTURE FOR EACH IDEA\n- Campaign name\n- Core message\n- Channels used (e.g., email, paid social, in-store)\n- Example CTA\n- Key visual/theme description\n- Timeline (start → end)\n- Success metric\n\nCONSTRAINTS\n- At least 1 low-cost idea\n- At least 1 high-impact paid push\n- Mix digital and offline\n\nQA CHECKLIST\n- Ideas fit brand voice\n- Seasonal tie-in is clear\n- Metrics are measurable\n\nOUTPUT\nProvide as a numbered list with sub-bullets for each field.",
+    "category": "Marketing",
+    "order": 7
   },
   {
     "title": "Job description generator",
     "summary": "Write a clear JD with responsibilities and requirements.",
     "prompt_template": "Write a job description for a {{ROLE}} at a {{COMPANY_TYPE}}. Include mission, 6 responsibilities, 6 requirements, and benefits.",
     "category": "HR",
-    "order": 5
+    "order": 8
   },
   {
     "title": "Interview questions",
     "summary": "Targeted questions that assess skills and fit.",
     "prompt_template": "Generate 10 interview questions to evaluate a candidate for {{ROLE}} focusing on {{SKILLS}} and culture fit.",
     "category": "HR",
-    "order": 6
+    "order": 9
   },
   {
     "title": "Employee feedback template",
     "summary": "Balanced, constructive feedback.",
     "prompt_template": "Write a balanced employee feedback note for {{EMPLOYEE}} on {{TOPIC}} using SBI (Situation, Behavior, Impact) format and 2 next steps.",
     "category": "HR",
-    "order": 7
+    "order": 10
   },
   {
     "title": "Monthly report summary",
     "summary": "Explain KPIs in plain English.",
     "prompt_template": "Summarize this monthly report for a small business owner. KPIs: {{KPIS}}. Provide 3 insights and 2 actions.",
     "category": "Finance",
-    "order": 8
+    "order": 11
   },
   {
     "title": "Cash flow forecast prompt",
     "summary": "Structure to forecast inflow/outflow.",
     "prompt_template": "Create a cash flow forecast prompt for {{BUSINESS}} covering revenue streams, fixed/variable costs, and seasonality.",
     "category": "Finance",
-    "order": 9
+    "order": 12
   },
   {
     "title": "Pricing strategy helper",
     "summary": "Pick pricing model with reasoning.",
     "prompt_template": "Recommend a pricing strategy for {{PRODUCT}} in {{MARKET}}. Compare 3 models and choose one with reasoning and next steps.",
     "category": "Finance",
-    "order": 10
+    "order": 13
   }
 ]
