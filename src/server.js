@@ -73,11 +73,7 @@ app.use(
   })
 );
 
-/* ---------- Auth helpers ---------- */
-function requireAuth(req, res, next) {
-  if (!req.session.userId) return res.redirect('/login');
-  next();
-}
+
 function setUser(req, res, next) {
   res.locals.user = req.session.userId ? q.findUserById(req.session.userId) : null;
   next();
