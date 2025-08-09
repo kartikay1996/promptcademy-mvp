@@ -13,7 +13,7 @@ import Stripe from 'stripe';
 import OpenAI from 'openai';
 import fs from 'fs';
 import expressLayouts from 'express-ejs-layouts';
-import coachRoutes from './routes/coach.js';
+import coachRoutes from '../routes/coach.js';
 import paymentRoutes from '../routes/payments.js';
 //import compression from 'compression';
 
